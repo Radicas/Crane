@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "pyenvdialog.h"
+#include "src/pycheck/pyenvdialog.h"
 
 #include <QMessageBox>
 #include <iostream>

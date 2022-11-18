@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "pyenvdialog.h"
+#include "src/pycheck/pyenvdialog.h"
 
 #include <QMainWindow>
 #include <memory.h>
