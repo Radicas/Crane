@@ -22,7 +22,7 @@ private:
 
 private slots:
     void checked();
-
+    void clearText();
 private:
     /* data */
     std::unique_ptr<Ui::PyEnvDlg> ui;

@@ -3,7 +3,7 @@
 #include "pyenvdialog.h"
 
 #include <QMessageBox>
-
+#include <iostream>
 /* region Constructors / Destructor */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::Scarab), pyenvdlg(new PyEnvDialog)
@@ -18,12 +18,18 @@ MainWindow::~MainWindow() = default;
 /* region Private Methods */
 void MainWindow::initComponents()
 {
-    connect(ui->pyEnvBtn, QPushButton::clicked, this, [this]()
-            { pyenvdlg->exec(); });
-    connect(ui->actionAbout, QAction::triggered, this,
-            [this]()
-            { QMessageBox::about(this, tr("About"), tr("圣甲虫是一个定制化的软件工具包")); });
-    connect(ui->actionExit, QAction::triggered, this, [this]()
-            { this->close(); });
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(aboutTriggered()));
+    connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exitTriggered()));
+    connect(ui->pyEnvBtn, SIGNAL(clicked()), this, SLOT(pyEnvBtnClicked()));
 }
+/* endregion */
+
+/* region Slots Methods */
+void MainWindow::pyEnvBtnClicked()
+{
+    std::cout << "/* message */" << std::endl;
+    pyenvdlg->exec();
+}
+void MainWindow::aboutTriggered() { QMessageBox::about(this, tr("About"), tr("圣甲虫是一个定制化的软件工具包")); }
+void MainWindow::exitTriggered() { this->close(); }
 /* endregion */

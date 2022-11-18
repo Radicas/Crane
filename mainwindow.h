@@ -21,8 +21,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private:
+private slots:
     void initComponents();
+    void pyEnvBtnClicked();
+    void aboutTriggered();
+    void exitTriggered();
 
 private:
     std::unique_ptr<Ui::Scarab> ui;

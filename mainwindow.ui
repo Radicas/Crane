@@ -19,8 +19,8 @@
      <rect>
       <x>30</x>
       <y>30</y>
-      <width>75</width>
-      <height>24</height>
+      <width>101</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -34,7 +34,7 @@
      <x>0</x>
      <y>0</y>
      <width>677</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
