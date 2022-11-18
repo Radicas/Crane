@@ -71,5 +71,7 @@ Thumbs.db
 *.dll
 *.exe
 .vscode
+.idea
+cmake-build-debug
 build
 install
