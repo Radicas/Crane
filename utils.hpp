@@ -22,9 +22,9 @@ namespace SUtil
         {
             text.append(line);
         }
-        return std::move(text);
         pclose(f);
         f = nullptr;
+        return std::move(text);
     }
 } // namespace SUtil
 
