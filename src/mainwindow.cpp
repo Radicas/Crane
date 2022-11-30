@@ -34,7 +34,7 @@ void MainWindow::pyEnvBtnClicked()
     pyenvdlg->exec();
 }
 void MainWindow::wToEatBtnClicked() {}
-void MainWindow::aboutTriggered() { QMessageBox::about(this, tr("About"), tr("Scarab is a experimental tool for the author")); }
+void MainWindow::aboutTriggered() { QMessageBox::about(this, tr("About"), tr("圣甲虫是个好用的软件!")); }
 void MainWindow::exitTriggered() { this->close(); }
 void MainWindow::qtLabBtnClicked()
 {
