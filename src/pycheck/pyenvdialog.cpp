@@ -5,7 +5,8 @@
 #include <windows.h>
 #endif
 
-PyEnvDialog::PyEnvDialog(QWidget *parent) : QDialog(parent), ui(new Ui::PyEnvDlg)
+PyEnvDialog::PyEnvDialog(QWidget *parent)
+    : QDialog(parent), ui(new Ui::PyEnvDlg)
 {
     ui->setupUi(this);
     setUp();

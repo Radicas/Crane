@@ -35,6 +35,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 aux_source_directory(${CMAKE_SOURCE_DIR} PROJECT_SOURCES)
 aux_source_directory(${CMAKE_SOURCE_DIR}/src PROJECT_SOURCES)
 aux_source_directory(${CMAKE_SOURCE_DIR}/src/pycheck PROJECT_SOURCES)
+aux_source_directory(${CMAKE_SOURCE_DIR}/src/qtlaboratory PROJECT_SOURCES)
 
 # 搜索ui文件
 set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/res/ui")

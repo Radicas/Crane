@@ -6,48 +6,49 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>677</width>
-    <height>403</height>
+    <width>153</width>
+    <height>198</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Scarab</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pyEnvBtn">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>30</y>
-      <width>101</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>python env</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="wtoEat">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>30</y>
-      <width>101</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>what to eat</string>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="pyEnvBtn">
+        <property name="text">
+         <string>python env</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="wtoEat">
+        <property name="text">
+         <string>what to eat</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="qtLabBtn">
+        <property name="text">
+         <string>Qt laboratory</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>677</width>
-     <height>24</height>
+     <width>153</width>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">

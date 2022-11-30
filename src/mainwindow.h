@@ -27,9 +27,9 @@ private slots:
     void wToEatBtnClicked();
     void aboutTriggered();
     void exitTriggered();
+    void qtLabBtnClicked();
 
 private:
     std::unique_ptr<Ui::Scarab> ui;
-    std::unique_ptr<PyEnvDialog> pyenvdlg;
 };
 #endif // MAINWINDOW_H
