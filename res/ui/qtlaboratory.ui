@@ -17,9 +17,37 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="geometryBtn">
+      <widget class="QPushButton" name="rectBtn">
        <property name="text">
-        <string>geometry</string>
+        <string>rectangle</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="roundRectBtn">
+       <property name="text">
+        <string>round rect</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="circleBtn">
+       <property name="text">
+        <string>circle</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="simPolyBtn">
+       <property name="text">
+        <string>simple polygon</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="comPolyBtn">
+       <property name="text">
+        <string>complex polygon</string>
        </property>
       </widget>
      </item>
@@ -27,20 +55,6 @@
       <widget class="QPushButton" name="mergeBtn">
        <property name="text">
         <string>merge</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="text">
-        <string>PushButton</string>
        </property>
       </widget>
      </item>
