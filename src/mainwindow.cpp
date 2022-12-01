@@ -6,7 +6,7 @@
 #include <QMessageBox>
 #include <iostream>
 /* region Constructors / Destructor */
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::Scarab)
 {
     ui->setupUi(this);

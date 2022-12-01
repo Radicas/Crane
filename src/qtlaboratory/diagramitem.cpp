@@ -5,9 +5,8 @@
 #include <QMenu>
 #include <QPainter>
 
-//! [0]
-DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
-                         QGraphicsItem *parent)
+DiagramItem::DiagramItem(DiagramType diagramType, QMenu* contextMenu,
+    QGraphicsItem* parent)
     : QGraphicsPolygonItem(parent)
 {
     myDiagramType = diagramType;
@@ -27,13 +26,13 @@ DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
         break;
     case Conditional:
         myPolygon << QPointF(-100, 0) << QPointF(0, 100)
-                  << QPointF(100, 0) << QPointF(0, -100)
-                  << QPointF(-100, 0);
+            << QPointF(100, 0) << QPointF(0, -100)
+            << QPointF(-100, 0);
         break;
     case Step:
         myPolygon << QPointF(-100, -100) << QPointF(100, -100)
-                  << QPointF(100, 100) << QPointF(-100, 100)
-                  << QPointF(-100, -100);
+            << QPointF(100, 100) << QPointF(-100, 100)
+            << QPointF(-100, -100);
         break;
     case Circle:
         path.moveTo(100, 0);
@@ -42,8 +41,8 @@ DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
         break;
     default:
         myPolygon << QPointF(-120, -80) << QPointF(-70, 80)
-                  << QPointF(120, 80) << QPointF(70, -80)
-                  << QPointF(-120, -80);
+            << QPointF(120, 80) << QPointF(70, -80)
+            << QPointF(-120, -80);
         break;
     }
     setPolygon(myPolygon);
@@ -51,39 +50,7 @@ DiagramItem::DiagramItem(DiagramType diagramType, QMenu *contextMenu,
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
-//! [0]
 
-//! [1]
-void DiagramItem::removeArrow(Arrow *arrow)
-{
-    int index = arrows.indexOf(arrow);
-
-    if (index != -1)
-        arrows.removeAt(index);
-}
-//! [1]
-
-//! [2]
-void DiagramItem::removeArrows()
-{
-    foreach (Arrow *arrow, arrows)
-    {
-        arrow->startItem()->removeArrow(arrow);
-        arrow->endItem()->removeArrow(arrow);
-        scene()->removeItem(arrow);
-        delete arrow;
-    }
-}
-//! [2]
-
-//! [3]
-void DiagramItem::addArrow(Arrow *arrow)
-{
-    arrows.append(arrow);
-}
-//! [3]
-
-//! [4]
 QPixmap DiagramItem::image() const
 {
     QPixmap pixmap(250, 250);
@@ -95,28 +62,9 @@ QPixmap DiagramItem::image() const
 
     return pixmap;
 }
-//! [4]
-
-//! [5]
-void DiagramItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void DiagramItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
 {
     scene()->clearSelection();
     setSelected(true);
     myContextMenu->exec(event->screenPos());
 }
-//! [5]
-
-//! [6]
-QVariant DiagramItem::itemChange(GraphicsItemChange change, const QVariant &value)
-{
-    if (change == QGraphicsItem::ItemPositionChange)
-    {
-        foreach (Arrow *arrow, arrows)
-        {
-            arrow->updatePosition();
-        }
-    }
-
-    return value;
-}
-//! [6]

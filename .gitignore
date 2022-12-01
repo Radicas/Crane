@@ -70,8 +70,11 @@ Thumbs.db
 # --------
 *.dll
 *.exe
+
+# Project configures
 .vscode
 .idea
+.editorconfig
 cmake-build-debug
 build
 install
