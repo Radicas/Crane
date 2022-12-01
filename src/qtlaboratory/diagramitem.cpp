@@ -5,66 +5,45 @@
 #include <QMenu>
 #include <QPainter>
 
-DiagramItem::DiagramItem(DiagramType diagramType, QMenu* contextMenu,
-    QGraphicsItem* parent)
+DiagramItem::DiagramItem(DiagramType diagramType, QGraphicsItem* parent)
     : QGraphicsPolygonItem(parent)
 {
-    myDiagramType = diagramType;
-    myContextMenu = contextMenu;
-
+    m_diagram_type = diagramType;
     QPainterPath path;
-    switch (myDiagramType)
+    switch (m_diagram_type)
     {
-    case StartEnd:
+    case Rectangle:
+        m_polygon << QPointF(-100, -100) << QPointF(100, -100)
+            << QPointF(100, 100) << QPointF(-100, 100)
+            << QPointF(-100, -100);
+        break;
+    case RoundRect:
         path.moveTo(200, 50);
         path.arcTo(150, 0, 50, 50, 0, 90);
         path.arcTo(50, 0, 50, 50, 90, 90);
         path.arcTo(50, 50, 50, 50, 180, 90);
         path.arcTo(150, 50, 50, 50, 270, 90);
         path.lineTo(200, 25);
-        myPolygon = path.toFillPolygon();
-        break;
-    case Conditional:
-        myPolygon << QPointF(-100, 0) << QPointF(0, 100)
-            << QPointF(100, 0) << QPointF(0, -100)
-            << QPointF(-100, 0);
-        break;
-    case Step:
-        myPolygon << QPointF(-100, -100) << QPointF(100, -100)
-            << QPointF(100, 100) << QPointF(-100, 100)
-            << QPointF(-100, -100);
+        m_polygon = path.toFillPolygon();
         break;
     case Circle:
         path.moveTo(100, 0);
         path.arcTo(-100, -100, 200, 200, 0, 360);
-        myPolygon = path.toFillPolygon();
+        m_polygon = path.toFillPolygon();
         break;
     default:
-        myPolygon << QPointF(-120, -80) << QPointF(-70, 80)
-            << QPointF(120, 80) << QPointF(70, -80)
-            << QPointF(-120, -80);
+        m_polygon << QPointF(-200, 0)
+            << QPointF(-75, -75)
+            << QPointF(-25, -25)
+            << QPointF(25, -75)
+            << QPointF(45, 30)
+            << QPointF(-25, 75)
+            << QPointF(-200, 0);
         break;
     }
-    setPolygon(myPolygon);
+    setPolygon(m_polygon);
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-}
-
-QPixmap DiagramItem::image() const
-{
-    QPixmap pixmap(250, 250);
-    pixmap.fill(Qt::transparent);
-    QPainter painter(&pixmap);
-    painter.setPen(QPen(Qt::black, 8));
-    painter.translate(125, 125);
-    painter.drawPolyline(myPolygon);
-
-    return pixmap;
-}
-void DiagramItem::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
-{
-    scene()->clearSelection();
-    setSelected(true);
-    myContextMenu->exec(event->screenPos());
+    setPen(QPen(Qt::yellow));
 }

@@ -21,7 +21,6 @@ private slots:
   void rectBtnClicked();
   void roundRectBtnClicked();
   void circleBtnClicked();
-  void simPolyBtnClicked();
   void comPolyBtnClicked();
   void mergeBtnClicked();
 

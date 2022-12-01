@@ -5,16 +5,8 @@
 #include <QList>
 
 QT_BEGIN_NAMESPACE
-class QPixmap;
 class QGraphicsItem;
 class QGraphicsScene;
-class QTextEdit;
-class QGraphicsSceneMouseEvent;
-class QMenu;
-class QGraphicsSceneContextMenuEvent;
-class QPainter;
-class QStyleOptionGraphicsItem;
-class QWidget;
 class QPolygonF;
 QT_END_NAMESPACE
 
@@ -27,27 +19,21 @@ public:
     };
     enum DiagramType
     {
-        Step,
-        Conditional,
-        StartEnd,
-        Io,
-        Circle
+        Rectangle,
+        RoundRect,
+        Circle,
+        Polygon,
     };
 
-    DiagramItem(DiagramType diagramType, QMenu* contextMenu, QGraphicsItem* parent = 0);
+    DiagramItem(DiagramType diagramType, QGraphicsItem* parent = 0);
 
-    DiagramType diagramType() const { return myDiagramType; }
-    QPolygonF polygon() const { return myPolygon; }
-    QPixmap image() const;
+    DiagramType diagramType() const { return m_diagram_type; }
+    QPolygonF polygon() const { return m_polygon; }
     int type() const override { return Type; }
 
-protected:
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) override;
-
 private:
-    DiagramType myDiagramType;
-    QPolygonF myPolygon;
-    QMenu* myContextMenu;
+    DiagramType m_diagram_type;
+    QPolygonF m_polygon;
 };
 
 #endif // DIAGRAMITEM_H

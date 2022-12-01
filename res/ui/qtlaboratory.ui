@@ -21,12 +21,18 @@
        <property name="text">
         <string>rectangle</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="roundRectBtn">
        <property name="text">
         <string>round rect</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -35,19 +41,18 @@
        <property name="text">
         <string>circle</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="simPolyBtn">
-       <property name="text">
-        <string>simple polygon</string>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="comPolyBtn">
+      <widget class="QPushButton" name="polygonBtn">
        <property name="text">
-        <string>complex polygon</string>
+        <string>polygon</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -55,6 +60,9 @@
       <widget class="QPushButton" name="mergeBtn">
        <property name="text">
         <string>merge</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
