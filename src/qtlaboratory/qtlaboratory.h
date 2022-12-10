@@ -23,6 +23,8 @@ private slots:
   void circleBtnClicked();
   void comPolyBtnClicked();
   void mergeBtnClicked();
+  void overlapsBtnClicked();
+  void clearBtnClicked();
 
 private:
   void initScene();

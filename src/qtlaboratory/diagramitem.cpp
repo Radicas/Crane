@@ -46,4 +46,5 @@ DiagramItem::DiagramItem(DiagramType diagramType, QGraphicsItem* parent)
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     setPen(QPen(Qt::yellow));
+    setBrush(QBrush(Qt::green));
 }
