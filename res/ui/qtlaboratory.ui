@@ -87,6 +87,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="layerProfileBtn">
+       <property name="text">
+        <string>layer profile</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>

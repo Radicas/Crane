@@ -6,33 +6,34 @@
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
-  class QtLabDlg;
+    class QtLabDlg;
 }
 class QGraphicsScene;
 QT_END_NAMESPACE
-class QtLaboratory : public QDialog
+class QtLaboratory: public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  explicit QtLaboratory(QWidget *parent = nullptr);
-  ~QtLaboratory() override;
+    explicit QtLaboratory(QWidget* parent = nullptr);
+    ~QtLaboratory() override;
 
 private slots:
-  void rectBtnClicked();
-  void roundRectBtnClicked();
-  void circleBtnClicked();
-  void comPolyBtnClicked();
-  void mergeBtnClicked();
-  void overlapsBtnClicked();
-  void clearBtnClicked();
+    void rectBtnClicked();
+    void roundRectBtnClicked();
+    void circleBtnClicked();
+    void comPolyBtnClicked();
+    void mergeBtnClicked();
+    void overlapsBtnClicked();
+    void clearBtnClicked();
+    void layerProfileBtnClicked();
 
 private:
-  void initScene();
-  void initConnects();
+    void initScene();
+    void initConnects();
 
 private:
-  std::unique_ptr<Ui::QtLabDlg> m_ui;
-  std::unique_ptr<QGraphicsScene> m_scene;
+    std::unique_ptr<Ui::QtLabDlg> m_ui;
+    std::unique_ptr<QGraphicsScene> m_scene;
 };
 
 #endif // REDEDA_QTLABORATORY_H
