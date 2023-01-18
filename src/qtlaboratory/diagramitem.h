@@ -10,30 +10,31 @@ class QGraphicsScene;
 class QPolygonF;
 QT_END_NAMESPACE
 
-class DiagramItem : public QGraphicsPolygonItem
-{
+class DiagramItem : public QGraphicsPolygonItem {
 public:
-    enum
-    {
-        Type = UserType + 15
-    };
-    enum DiagramType
-    {
+    enum { Type = UserType + 15 };
+    enum DiagramType {
         Rectangle,
         RoundRect,
         Circle,
         Polygon,
     };
 
-    DiagramItem(DiagramType diagramType, QGraphicsItem* parent = 0);
+    DiagramItem( DiagramType diagramType, QGraphicsItem* parent = 0 );
 
-    DiagramType diagramType() const { return m_diagram_type; }
-    QPolygonF polygon() const { return m_polygon; }
-    int type() const override { return Type; }
+    DiagramType diagramType() const {
+        return m_diagram_type;
+    }
+    QPolygonF polygon() const {
+        return m_polygon;
+    }
+    int type() const override {
+        return Type;
+    }
 
 private:
     DiagramType m_diagram_type;
-    QPolygonF m_polygon;
+    QPolygonF   m_polygon;
 };
 
-#endif // DIAGRAMITEM_H
+#endif  // DIAGRAMITEM_H

@@ -4,17 +4,15 @@
 #include <QDialog>
 
 QT_BEGIN_NAMESPACE
-namespace Ui
-{
-    class PyEnvDlg;
+namespace Ui {
+class PyEnvDlg;
 }
 QT_END_NAMESPACE
 
-class PyEnvDialog : public QDialog
-{
+class PyEnvDialog : public QDialog {
     Q_OBJECT
 public:
-    PyEnvDialog(QWidget *parent = nullptr);
+    PyEnvDialog( QWidget* parent = nullptr );
     ~PyEnvDialog();
 
 private:
@@ -23,9 +21,10 @@ private:
 private slots:
     void checked();
     void clearText();
+
 private:
     /* data */
-    std::unique_ptr<Ui::PyEnvDlg> ui;
+    std::unique_ptr< Ui::PyEnvDlg > ui;
 };
 
-#endif // REDEDA_PYENVDIALOG_H
+#endif  // REDEDA_PYENVDIALOG_H

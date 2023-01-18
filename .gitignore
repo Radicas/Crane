@@ -72,9 +72,10 @@ Thumbs.db
 *.exe
 
 # Project configures
+.editorconfig
+.clang-format
 .vscode
 .idea
-.editorconfig
 cmake-build-debug
 build
 install

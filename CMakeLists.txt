@@ -21,7 +21,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 苹果系统需要手动指定qt路径
 #if(MACOS)
-    set(CMAKE_PREFIX_PATH "/usr/local/Cellar/qt@5/5.15.7")
+    set(CMAKE_PREFIX_PATH "/usr/local/Cellar/qt@5/5.15.8_1")
 #endif()
 
 # 设置翻译文件

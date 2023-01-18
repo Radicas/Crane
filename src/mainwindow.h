@@ -7,18 +7,16 @@
 #include <memory.h>
 
 QT_BEGIN_NAMESPACE
-namespace Ui
-{
-    class Scarab;
+namespace Ui {
+class Scarab;
 }
 QT_END_NAMESPACE
 class PyEnvDialog;
-class MainWindow: public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget* parent = nullptr);
+    MainWindow( QWidget* parent = nullptr );
     ~MainWindow();
 
 private slots:
@@ -30,6 +28,6 @@ private slots:
     void qtLabBtnClicked();
 
 private:
-    std::unique_ptr<Ui::Scarab> ui;
+    std::unique_ptr< Ui::Scarab > ui;
 };
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H
