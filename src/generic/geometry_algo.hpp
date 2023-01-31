@@ -19,7 +19,7 @@ namespace geometry {
 const double INF  = 1E200;
 const double EP   = 1E-10;
 const int    MAXV = 300;
-const double PAI  = 3.14159265;
+const double G_PI = 3.14159265;
 
 /*************************基本几何结构***************************/
 
@@ -142,6 +142,17 @@ static double dotmultiply( POINT p1, POINT p2, POINT p0 ) {
 static double multiply( POINT sp, POINT ep, POINT op ) {
     return ( ( sp.x - op.x ) * ( ep.y - op.y ) - ( ep.x - op.x ) * ( sp.y - op.y ) );
 }
+
+/**
+ * @brief 向量的模
+ *
+ * @param sp
+ * @param ep
+ * @return double
+ */
+static double g_module( POINT sp, POINT ep ) {
+    return sqrt( ( ep.x - sp.x ) * ( ep.x - sp.x ) + ( ep.y - sp.y ) * ( ep.y - sp.y ) );
+}
 /***************************************************************/
 
 /************************线段、直线基本运算***********************/
@@ -259,6 +270,33 @@ static LINE ptoline( POINT a, POINT b ) {
     return { b.y - a.y, a.x - b.x, b.x * a.y - a.x * b.y };
 }
 
+/**
+ * @brief 返回直线和x轴的夹角
+ *
+ * @param a
+ * @param b
+ * @param angle
+ * @return true
+ * @return false
+ */
+static bool includedAngle( POINT ap, POINT bp, double& angle ) {
+    if ( bp.x == ap.x )
+        return false;
+    angle = atan( ( bp.y - ap.y ) / ( bp.x - ap.x ) ) * 180 / G_PI;
+    return true;
+}
+
+static double sweepAngle( POINT p1, POINT p2, POINT op ) {
+    double theta = atan2( p1.x - op.x, p1.y - op.y ) - atan2( p2.x - op.x, p2.y - op.y );
+    if ( theta > M_PI )
+        theta -= 2 * M_PI;
+    if ( theta < -M_PI )
+        theta += 2 * M_PI;
+
+    theta = abs( theta * 180.0 / M_PI );
+    return theta;
+}
+
 /****************************************************************/
 
 /************************圆弧、圆基本运算***********************/
@@ -334,6 +372,27 @@ static int circlerelation( POINT p1, double r1, POINT p2, double r2 ) {
     if ( fabs( r1 - r2 ) < d && d < r1 + r2 )
         return 3;
     return 0;  // indicate an error!
+}
+
+static POINT trip2circle( POINT p1, POINT p2, POINT p3, double& r ) {
+    double x1, y1, x2, y2, x3, y3;
+    double a, b, c, g, e, f;
+    x1       = p1.x;
+    y1       = p1.y;
+    x2       = p2.x;
+    y2       = p2.y;
+    x3       = p3.x;
+    y3       = p3.y;
+    e        = 2 * ( x2 - x1 );
+    f        = 2 * ( y2 - y1 );
+    g        = x2 * x2 - x1 * x1 + y2 * y2 - y1 * y1;
+    a        = 2 * ( x3 - x2 );
+    b        = 2 * ( y3 - y2 );
+    c        = x3 * x3 - x2 * x2 + y3 * y3 - y2 * y2;
+    double X = ( g * b - c * f ) / ( e * b - a * f );
+    double Y = ( a * g - c * e ) / ( a * f - b * e );
+    r        = sqrt( ( X - x1 ) * ( X - x1 ) + ( Y - y1 ) * ( Y - y1 ) );
+    return std::move( POINT( X, Y ) );
 }
 /****************************************************************/
 
