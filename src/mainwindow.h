@@ -1,33 +1,44 @@
+/**
+ * @file mainwindow.h
+ * @author Radica
+ * @brief 主界面
+ * @version 0.1
+ * @date 2023-02-19
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
-#include "src/pycheck/pyenvdialog.h"
 
 #include <QMainWindow>
 #include <memory.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class Scarab;
+	class Scarab;
 }
 QT_END_NAMESPACE
 class PyEnvDialog;
-class MainWindow : public QMainWindow {
-    Q_OBJECT
+class MainWindow: public QMainWindow {
+	Q_OBJECT
 
 public:
-    MainWindow( QWidget* parent = nullptr );
-    ~MainWindow();
+	/* region Constructors / Destructor */
+	MainWindow(QWidget* parent = nullptr);
+	~MainWindow();
+	/* endregion */
 
 private slots:
-    void initComponents();
-    void pyEnvBtnClicked();
-    void wToEatBtnClicked();
-    void aboutTriggered();
-    void exitTriggered();
-    void qtLabBtnClicked();
+	void initComponents();
+	void pyEnvBtnClicked();
+	void wToEatBtnClicked();
+	void aboutTriggered();
+	void exitTriggered();
+	void qtLabBtnClicked();
 
 private:
-    std::unique_ptr< Ui::Scarab > ui;
+	/* data */
+	std::unique_ptr< Ui::Scarab > ui;
 };
 #endif  // MAINWINDOW_H

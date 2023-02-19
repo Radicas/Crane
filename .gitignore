@@ -74,6 +74,7 @@ Thumbs.db
 # Project configures
 .editorconfig
 .clang-format
+.clang-tidy
 .vscode
 .idea
 cmake-build-debug

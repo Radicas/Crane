@@ -309,25 +309,25 @@ static double sweepAngle( POINT p1, POINT p2, POINT op ) {
  * @param np 某点距离圆弧最近的点
  * @return double
  */
-static double ptoarcsegdist( POINT p, ARC a, POINT& np ) {
-    // using namespace rededa::Vector;
-    // LINESEG se(a.st, a.et);
-    // double spdist = dist(a.st, p);
-    // double epdist = dist(a.et, p);
-    // if (intersect(ptoline(a.c, p), ptoline(a.st, a.et), np))
-    // {
-    //     auto r = relation(np, se);
-    //     if (r >= 0 && r <= 1 && dotmultiply(p, np, a.c) > 0)
-    //     {
-    //         auto cp(p - a.c);
-    //         auto normalCP = normalized(cp);
-    //         np = a.r * normalCP + a.c;
-    //         return std::abs(module(cp) - a.r);
-    //     }
-    // }
-    // np = spdist < epdist ? a.st : a.et;
-    // return std::min(spdist, epdist);
-}
+// static double ptoarcsegdist( POINT p, ARC a, POINT& np ) {
+//  using namespace rededa::Vector;
+//  LINESEG se(a.st, a.et);
+//  double spdist = dist(a.st, p);
+//  double epdist = dist(a.et, p);
+//  if (intersect(ptoline(a.c, p), ptoline(a.st, a.et), np))
+//  {
+//      auto r = relation(np, se);
+//      if (r >= 0 && r <= 1 && dotmultiply(p, np, a.c) > 0)
+//      {
+//          auto cp(p - a.c);
+//          auto normalCP = normalized(cp);
+//          np = a.r * normalCP + a.c;
+//          return std::abs(module(cp) - a.r);
+//      }
+//  }
+//  np = spdist < epdist ? a.st : a.et;
+//  return std::min(spdist, epdist);
+//}
 
 /**
  * @brief 判断点是否在圆内(包括边界)

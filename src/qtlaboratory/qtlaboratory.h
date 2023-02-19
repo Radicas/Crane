@@ -1,3 +1,13 @@
+/**
+ * @file qtlaboratory.h
+ * @author Radica
+ * @brief 
+ * @version 0.1
+ * @date 2023-02-19
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef REDEDA_QTLABORATORY_H
 #define REDEDA_QTLABORATORY_H
 
@@ -32,8 +42,8 @@ private:
     void initConnects();
 
 private:
-    std::unique_ptr< Ui::QtLabDlg >   m_ui;
-    std::unique_ptr< QGraphicsScene > m_scene;
+    std::unique_ptr<Ui::QtLabDlg>   m_ui;
+    std::unique_ptr<QGraphicsScene> m_scene;
 };
 
 #endif  // REDEDA_QTLABORATORY_H
