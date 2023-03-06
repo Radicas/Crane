@@ -32,7 +32,6 @@ public:
 private slots:
 	void initComponents();
 	void pyEnvBtnClicked();
-	void wToEatBtnClicked();
 	void aboutTriggered();
 	void exitTriggered();
 	void qtLabBtnClicked();

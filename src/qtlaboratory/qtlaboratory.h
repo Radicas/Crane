@@ -1,12 +1,12 @@
 /**
  * @file qtlaboratory.h
  * @author Radica
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-02-19
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 #ifndef REDEDA_QTLABORATORY_H
 #define REDEDA_QTLABORATORY_H
@@ -21,6 +21,7 @@ namespace Ui {
 class QtLabDlg;
 }
 
+class LabScene;
 class QtLaboratory : public QDialog {
     Q_OBJECT
 public:
@@ -35,15 +36,14 @@ private slots:
     void mergeBtnClicked();
     void overlapsBtnClicked();
     void clearBtnClicked();
-    void layerProfileBtnClicked();
 
 private:
     void initScene();
     void initConnects();
 
 private:
-    std::unique_ptr<Ui::QtLabDlg>   m_ui;
-    std::unique_ptr<QGraphicsScene> m_scene;
+    std::unique_ptr<Ui::QtLabDlg> m_ui;
+    std::unique_ptr<LabScene>     m_scene;
 };
 
 #endif  // REDEDA_QTLABORATORY_H

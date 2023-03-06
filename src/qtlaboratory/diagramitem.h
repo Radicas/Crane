@@ -1,7 +1,7 @@
 #ifndef DIAGRAMITEM_H
 #define DIAGRAMITEM_H
 
-#include <QGraphicsPixmapItem>
+#include <QGraphicsItem>
 #include <QList>
 
 QT_BEGIN_NAMESPACE
@@ -10,7 +10,7 @@ class QGraphicsScene;
 class QPolygonF;
 QT_END_NAMESPACE
 
-class DiagramItem : public QGraphicsPolygonItem {
+class DiagramItem : public QGraphicsItem {
 public:
     enum { Type = UserType + 15 };
     enum DiagramType {

@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 
-#include "generic/geometry_algo.hpp"
 #include "pycheck/pyenvdialog.h"
 #include "qtlaboratory/qtlaboratory.h"
 #include "ui_mainwindow.h"
@@ -22,7 +21,6 @@ void MainWindow::initComponents() {
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(aboutTriggered()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exitTriggered()));
     connect(ui->pyEnvBtn, SIGNAL(clicked()), this, SLOT(pyEnvBtnClicked()));
-    connect(ui->wtoEat, SIGNAL(clicked()), this, SLOT(wToEatBtnClicked()));
     connect(ui->qtLabBtn, SIGNAL(clicked()), this, SLOT(qtLabBtnClicked()));
 }
 /* endregion */
@@ -31,8 +29,6 @@ void MainWindow::initComponents() {
 void MainWindow::pyEnvBtnClicked() {
     std::unique_ptr< PyEnvDialog > pyenvdlg(new PyEnvDialog());
     pyenvdlg->exec();
-}
-void MainWindow::wToEatBtnClicked() {
 }
 void MainWindow::aboutTriggered() {
     QMessageBox::about(this, tr("About"), tr("ttt!"));
