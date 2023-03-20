@@ -1,5 +1,5 @@
 #include "geometryitem.h"
-#include "Craneglobal.h"
+#include "craneglobal.h"
 
 #include <QPainter>
 #include <QPainterPath>

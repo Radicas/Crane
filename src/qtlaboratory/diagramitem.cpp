@@ -1,5 +1,5 @@
 #include "diagramitem.h"
-#include "Craneglobal.h"
+#include "craneglobal.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>

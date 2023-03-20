@@ -1,6 +1,6 @@
 #include "labscene.h"
 #include "geometryitem.h"
-#include "Craneglobal.h"
+#include "craneglobal.h"
 
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
