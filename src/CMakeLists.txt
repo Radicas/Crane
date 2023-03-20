@@ -62,9 +62,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-# 设置安装路径
-set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
-
 # 不指定安装路径这里会安装到C盘
 install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION .

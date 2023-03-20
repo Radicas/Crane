@@ -10,6 +10,9 @@ project(${PROJECT_NAME} VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_PREFIX_PATH "/usr/local/Cellar/qt@5/5.15.8_1")
 #endif()
 
+# 设置安装路径
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
+
 add_subdirectory(src)
 add_subdirectory(test)
 add_subdirectory(third_party/gtest)
