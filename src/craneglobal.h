@@ -1,7 +1,7 @@
 
 #include <QColor>
 
-namespace SCARAB {
+namespace Crane {
 
 namespace COLOR {
 
@@ -14,4 +14,4 @@ namespace COLOR {
 
 }  // namespace COLOR
 
-}  // namespace SCARAB
+}  // namespace Crane

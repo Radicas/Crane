@@ -8,7 +8,7 @@
 #include <iostream>
 
 /* region Constructors / Destructor */
-MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), ui(new Ui::Scarab) {
+MainWindow::MainWindow(QWidget* parent): QMainWindow(parent), ui(new Ui::Crane) {
     ui->setupUi(this);
     initComponents();
 }
@@ -31,7 +31,7 @@ void MainWindow::pyEnvBtnClicked() {
     pyenvdlg->exec();
 }
 void MainWindow::aboutTriggered() {
-    QMessageBox::about(this, tr("About"), tr("ttt!"));
+    
 }
 void MainWindow::exitTriggered() {
     this->close();

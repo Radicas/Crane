@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # 设置项目名称
-set(PROJECT_NAME Scarab)
+set(PROJECT_NAME Crane)
 project(${PROJECT_NAME} VERSION 0.1 LANGUAGES CXX)
 
 # 苹果系统需要手动指定qt路径

@@ -1,17 +1,19 @@
 #include "diagramitem.h"
-#include "scarabglobal.h"
+#include "Craneglobal.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
 #include <QPainter>
 
-DiagramItem::DiagramItem(DiagramType diagramType, QGraphicsItem* parent) : QGraphicsItem(parent) {
+DiagramItem::DiagramItem(DiagramType diagramType, QGraphicsItem* parent)
+    : QGraphicsItem(parent) {
     m_diagram_type = diagramType;
     QPainterPath path;
     switch (m_diagram_type) {
     case Rectangle:
-        m_polygon << QPointF(-100, -100) << QPointF(100, -100) << QPointF(100, 100) << QPointF(-100, 100) << QPointF(-100, -100);
+        m_polygon << QPointF(-100, -100) << QPointF(100, -100) << QPointF(100, 100) << QPointF(-100, 100)
+                  << QPointF(-100, -100);
         break;
     case RoundRect:
         path.moveTo(200, 50);
@@ -28,7 +30,8 @@ DiagramItem::DiagramItem(DiagramType diagramType, QGraphicsItem* parent) : QGrap
         m_polygon = path.toFillPolygon();
         break;
     default:
-        m_polygon << QPointF(-200, 0) << QPointF(-75, -75) << QPointF(-25, -25) << QPointF(25, -75) << QPointF(45, 30) << QPointF(-25, 75) << QPointF(-200, 0);
+        m_polygon << QPointF(-200, 0) << QPointF(-75, -75) << QPointF(-25, -25) << QPointF(25, -75) << QPointF(45, 30)
+                  << QPointF(-25, 75) << QPointF(-200, 0);
         break;
     }
     setFlag(QGraphicsItem::ItemIsMovable, true);

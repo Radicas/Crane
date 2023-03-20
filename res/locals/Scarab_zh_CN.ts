@@ -5,13 +5,13 @@
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>
-        <location filename="build/Scarab_autogen/include/ui_mainwindow.h" line="56"/>
+        <location filename="build/Crane_autogen/include/ui_mainwindow.h" line="56"/>
         <source>MainWindow</source>
         <translation type="主界面"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="27"/>
-        <location filename="build/Scarab_autogen/include/ui_mainwindow.h" line="57"/>
+        <location filename="build/Crane_autogen/include/ui_mainwindow.h" line="57"/>
         <source>python env </source>
         <translation type="python环境"></translation>
     </message>

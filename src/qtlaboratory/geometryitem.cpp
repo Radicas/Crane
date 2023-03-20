@@ -1,5 +1,5 @@
 #include "geometryitem.h"
-#include "scarabglobal.h"
+#include "Craneglobal.h"
 
 #include <QPainter>
 #include <QPainterPath>
@@ -11,8 +11,8 @@ GeometryItem::GeometryItem(QGraphicsItem* parent)
 GeometryItem::~GeometryItem() {}
 
 void GeometryItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-    painter->setBrush(SCARAB::COLOR::BLUE);
-    painter->setPen(SCARAB::COLOR::RED);
+    painter->setBrush(Crane::COLOR::BLUE);
+    painter->setPen(Crane::COLOR::RED);
     painter->drawPath(m_path);
 }
 QRectF GeometryItem::boundingRect() const {

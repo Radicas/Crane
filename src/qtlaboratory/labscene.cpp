@@ -1,6 +1,6 @@
 #include "labscene.h"
 #include "geometryitem.h"
-#include "scarabglobal.h"
+#include "Craneglobal.h"
 
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
@@ -25,7 +25,7 @@ void LabScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         m_curr_item->setSelected(true);
         m_select_items.append(m_curr_item);
     }
-//    dynamic_cast<GeometryItem*>(m_curr_item)->setBrush(SCARAB::COLOR::GRAY);
+//    dynamic_cast<GeometryItem*>(m_curr_item)->setBrush(Crane::COLOR::GRAY);
 }
 
 void LabScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
@@ -36,6 +36,6 @@ void LabScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
 
 void LabScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
     if (m_curr_item) {
-//        dynamic_cast<GeometryItem*>(m_curr_item)->setBrush(SCARAB::COLOR::BLUE);
+//        dynamic_cast<GeometryItem*>(m_curr_item)->setBrush(Crane::COLOR::BLUE);
     }
 }

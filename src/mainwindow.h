@@ -16,7 +16,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-	class Scarab;
+	class Crane;
 }
 QT_END_NAMESPACE
 class PyEnvDialog;
@@ -38,6 +38,6 @@ private slots:
 
 private:
 	/* data */
-	std::unique_ptr< Ui::Scarab > ui;
+	std::unique_ptr< Ui::Crane > ui;
 };
 #endif  // MAINWINDOW_H
