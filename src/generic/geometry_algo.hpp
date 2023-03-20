@@ -30,7 +30,7 @@ const double G_PI = 3.14159265;
 struct POINT {
     double x;
     double y;
-    POINT( double a = 0, double b = 0 ) {
+    POINT(double a = 0, double b = 0) {
         x = a;
         y = b;
     }  // constructor
@@ -43,7 +43,7 @@ struct POINT {
 struct LINESEG {
     POINT s;
     POINT e;
-    LINESEG( POINT a, POINT b ) {
+    LINESEG(POINT a, POINT b) {
         s = a;
         e = b;
     }
@@ -58,7 +58,7 @@ struct LINE {
     double a;
     double b;
     double c;
-    LINE( double d1 = 1, double d2 = -1, double d3 = 0 ) {
+    LINE(double d1 = 1, double d2 = -1, double d3 = 0) {
         a = d1;
         b = d2;
         c = d3;
@@ -86,7 +86,7 @@ struct ARC {
     double    sta;
     double    spa;
     DIRECTION d;
-    ARC( POINT c, double r, POINT st, POINT et, double sta, double spa, DIRECTION d ) {
+    ARC(POINT c, double r, POINT st, POINT et, double sta, double spa, DIRECTION d) {
         this->c   = c;
         this->r   = r;
         this->st  = st;
@@ -107,8 +107,8 @@ struct ARC {
  * @param p2
  * @return double
  */
-static double dist( POINT p1, POINT p2 ) {
-    return ( sqrt( ( p1.x - p2.x ) * ( p1.x - p2.x ) + ( p1.y - p2.y ) * ( p1.y - p2.y ) ) );
+static double dist(POINT p1, POINT p2) {
+    return (sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
 }
 /***************************************************************/
 
@@ -124,8 +124,8 @@ static double dist( POINT p1, POINT p2 ) {
  * @param p0
  * @return double
  */
-static double dotmultiply( POINT p1, POINT p2, POINT p0 ) {
-    return ( ( p1.x - p0.x ) * ( p2.x - p0.x ) + ( p1.y - p0.y ) * ( p2.y - p0.y ) );
+static double dotmultiply(POINT p1, POINT p2, POINT p0) {
+    return ((p1.x - p0.x) * (p2.x - p0.x) + (p1.y - p0.y) * (p2.y - p0.y));
 }
 
 /**
@@ -139,8 +139,8 @@ static double dotmultiply( POINT p1, POINT p2, POINT p0 ) {
  * @param op
  * @return double
  */
-static double multiply( POINT sp, POINT ep, POINT op ) {
-    return ( ( sp.x - op.x ) * ( ep.y - op.y ) - ( ep.x - op.x ) * ( sp.y - op.y ) );
+static double multiply(POINT sp, POINT ep, POINT op) {
+    return ((sp.x - op.x) * (ep.y - op.y) - (ep.x - op.x) * (sp.y - op.y));
 }
 
 /**
@@ -150,8 +150,8 @@ static double multiply( POINT sp, POINT ep, POINT op ) {
  * @param ep
  * @return double
  */
-static double g_module( POINT sp, POINT ep ) {
-    return sqrt( ( ep.x - sp.x ) * ( ep.x - sp.x ) + ( ep.y - sp.y ) * ( ep.y - sp.y ) );
+static double g_module(POINT sp, POINT ep) {
+    return sqrt((ep.x - sp.x) * (ep.x - sp.x) + (ep.y - sp.y) * (ep.y - sp.y));
 }
 /***************************************************************/
 
@@ -177,11 +177,11 @@ static double g_module( POINT sp, POINT ep ) {
  * @param l
  * @return double
  */
-static double relation( POINT p, LINESEG l ) {
+static double relation(POINT p, LINESEG l) {
     LINESEG tl;
     tl.s = l.s;
     tl.e = p;
-    return dotmultiply( tl.e, l.e, l.s ) / ( dist( l.s, l.e ) * dist( l.s, l.e ) );
+    return dotmultiply(tl.e, l.e, l.s) / (dist(l.s, l.e) * dist(l.s, l.e));
 }
 
 /**
@@ -191,11 +191,11 @@ static double relation( POINT p, LINESEG l ) {
  * @param l
  * @return POINT
  */
-static POINT perpendicular( POINT p, LINESEG l ) {
-    double r = relation( p, l );
+static POINT perpendicular(POINT p, LINESEG l) {
+    double r = relation(p, l);
     POINT  tp;
-    tp.x = l.s.x + r * ( l.e.x - l.s.x );
-    tp.y = l.s.y + r * ( l.e.y - l.s.y );
+    tp.x = l.s.x + r * (l.e.x - l.s.x);
+    tp.y = l.s.y + r * (l.e.y - l.s.y);
     return tp;
 }
 
@@ -208,18 +208,18 @@ static POINT perpendicular( POINT p, LINESEG l ) {
  * @param np
  * @return double
  */
-static double ptolinesegdist( POINT p, LINESEG l, POINT& np ) {
-    double r = relation( p, l );
-    if ( r < 0 ) {
+static double ptolinesegdist(POINT p, LINESEG l, POINT& np) {
+    double r = relation(p, l);
+    if (r < 0) {
         np = l.s;
-        return dist( p, l.s );
+        return dist(p, l.s);
     }
-    if ( r > 1 ) {
+    if (r > 1) {
         np = l.e;
-        return dist( p, l.e );
+        return dist(p, l.e);
     }
-    np = perpendicular( p, l );
-    return dist( p, np );
+    np = perpendicular(p, l);
+    return dist(p, np);
 }
 
 /**
@@ -231,11 +231,12 @@ static double ptolinesegdist( POINT p, LINESEG l, POINT& np ) {
  * @return true 相交
  * @return false 不相交
  */
-static bool intersect( LINESEG u, LINESEG v ) {
-    return ( ( std::max( u.s.x, u.e.x ) >= std::min( v.s.x, v.e.x ) ) &&  // 排斥实验
-             ( std::max( v.s.x, v.e.x ) >= std::min( u.s.x, u.e.x ) ) && ( std::max( u.s.y, u.e.y ) >= std::min( v.s.y, v.e.y ) ) && ( std::max( v.s.y, v.e.y ) >= std::min( u.s.y, u.e.y ) )
-             && ( multiply( v.s, u.e, u.s ) * multiply( u.e, v.e, u.s ) >= 0 ) &&  // 跨立实验
-             ( multiply( u.s, v.e, v.s ) * multiply( v.e, u.e, v.s ) >= 0 ) );
+static bool intersect(LINESEG u, LINESEG v) {
+    return ((std::max(u.s.x, u.e.x) >= std::min(v.s.x, v.e.x)) &&  // 排斥实验
+            (std::max(v.s.x, v.e.x) >= std::min(u.s.x, u.e.x)) && (std::max(u.s.y, u.e.y) >= std::min(v.s.y, v.e.y))
+            && (std::max(v.s.y, v.e.y) >= std::min(u.s.y, u.e.y))
+            && (multiply(v.s, u.e, u.s) * multiply(u.e, v.e, u.s) >= 0) &&  // 跨立实验
+            (multiply(u.s, v.e, v.s) * multiply(v.e, u.e, v.s) >= 0));
 }
 
 /**
@@ -247,11 +248,11 @@ static bool intersect( LINESEG u, LINESEG v ) {
  * @return true
  * @return false
  */
-static bool intersect( LINE u, LINE v, POINT& l ) {
+static bool intersect(LINE u, LINE v, POINT& l) {
     bool res = u.a * v.b != v.a * u.b;
-    if ( res ) {
-        l.x = ( u.b * v.c - v.b * u.c ) / ( u.a * v.b - v.a * u.b );
-        l.y = ( v.a * u.c - u.a * v.c ) / ( u.a * v.b - v.a * u.b );
+    if (res) {
+        l.x = (u.b * v.c - v.b * u.c) / (u.a * v.b - v.a * u.b);
+        l.y = (v.a * u.c - u.a * v.c) / (u.a * v.b - v.a * u.b);
     }
     return res;
 }
@@ -266,7 +267,7 @@ static bool intersect( LINE u, LINE v, POINT& l ) {
  * @param b
  * @return LINE
  */
-static LINE ptoline( POINT a, POINT b ) {
+static LINE ptoline(POINT a, POINT b) {
     return { b.y - a.y, a.x - b.x, b.x * a.y - a.x * b.y };
 }
 
@@ -279,21 +280,21 @@ static LINE ptoline( POINT a, POINT b ) {
  * @return true
  * @return false
  */
-static bool includedAngle( POINT ap, POINT bp, double& angle ) {
-    if ( bp.x == ap.x )
+static bool includedAngle(POINT ap, POINT bp, double& angle) {
+    if (bp.x == ap.x)
         return false;
-    angle = atan( ( bp.y - ap.y ) / ( bp.x - ap.x ) ) * 180 / G_PI;
+    angle = atan((bp.y - ap.y) / (bp.x - ap.x)) * 180 / G_PI;
     return true;
 }
 
-static double sweepAngle( POINT p1, POINT p2, POINT op ) {
-    double theta = atan2( p1.x - op.x, p1.y - op.y ) - atan2( p2.x - op.x, p2.y - op.y );
-    if ( theta > M_PI )
+static double sweepAngle(POINT p1, POINT p2, POINT op) {
+    double theta = atan2(p1.x - op.x, p1.y - op.y) - atan2(p2.x - op.x, p2.y - op.y);
+    if (theta > M_PI)
         theta -= 2 * M_PI;
-    if ( theta < -M_PI )
+    if (theta < -M_PI)
         theta += 2 * M_PI;
 
-    theta = abs( theta * 180.0 / M_PI );
+    theta = abs(theta * 180.0 / M_PI);
     return theta;
 }
 
@@ -339,10 +340,10 @@ static double sweepAngle( POINT p1, POINT p2, POINT op ) {
  * @return true  在圆内
  * @return false 不在圆内
  */
-static bool pincircle( POINT o, double r, POINT p ) {
-    double d2 = ( p.x - o.x ) * ( p.x - o.x ) + ( p.y - o.y ) * ( p.y - o.y );
+static bool pincircle(POINT o, double r, POINT p) {
+    double d2 = (p.x - o.x) * (p.x - o.x) + (p.y - o.y) * (p.y - o.y);
     double r2 = r * r;
-    return d2 < r2 || abs( d2 - r2 ) < EP;
+    return d2 < r2 || abs(d2 - r2) < EP;
 }
 
 /**
@@ -358,23 +359,23 @@ static bool pincircle( POINT o, double r, POINT p ) {
  * @return 4 内切
  * @return 5 内含
  */
-static int circlerelation( POINT p1, double r1, POINT p2, double r2 ) {
-    double d = sqrt( ( p1.x - p2.x ) * ( p1.x - p2.x ) + ( p1.y - p2.y ) * ( p1.y - p2.y ) );
+static int circlerelation(POINT p1, double r1, POINT p2, double r2) {
+    double d = sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 
-    if ( fabs( d - r1 - r2 ) < EP )  // 必须保证前两个if先被判定！
+    if (fabs(d - r1 - r2) < EP)  // 必须保证前两个if先被判定！
         return 2;
-    if ( fabs( d - fabs( r1 - r2 ) ) < EP )
+    if (fabs(d - fabs(r1 - r2)) < EP)
         return 4;
-    if ( d > r1 + r2 )
+    if (d > r1 + r2)
         return 1;
-    if ( d < fabs( r1 - r2 ) )
+    if (d < fabs(r1 - r2))
         return 5;
-    if ( fabs( r1 - r2 ) < d && d < r1 + r2 )
+    if (fabs(r1 - r2) < d && d < r1 + r2)
         return 3;
     return 0;  // indicate an error!
 }
 
-static POINT trip2circle( POINT p1, POINT p2, POINT p3, double& r ) {
+static POINT trip2circle(POINT p1, POINT p2, POINT p3, double& r) {
     double x1, y1, x2, y2, x3, y3;
     double a, b, c, g, e, f;
     x1       = p1.x;
@@ -383,16 +384,16 @@ static POINT trip2circle( POINT p1, POINT p2, POINT p3, double& r ) {
     y2       = p2.y;
     x3       = p3.x;
     y3       = p3.y;
-    e        = 2 * ( x2 - x1 );
-    f        = 2 * ( y2 - y1 );
+    e        = 2 * (x2 - x1);
+    f        = 2 * (y2 - y1);
     g        = x2 * x2 - x1 * x1 + y2 * y2 - y1 * y1;
-    a        = 2 * ( x3 - x2 );
-    b        = 2 * ( y3 - y2 );
+    a        = 2 * (x3 - x2);
+    b        = 2 * (y3 - y2);
     c        = x3 * x3 - x2 * x2 + y3 * y3 - y2 * y2;
-    double X = ( g * b - c * f ) / ( e * b - a * f );
-    double Y = ( a * g - c * e ) / ( a * f - b * e );
-    r        = sqrt( ( X - x1 ) * ( X - x1 ) + ( Y - y1 ) * ( Y - y1 ) );
-    return std::move( POINT( X, Y ) );
+    double X = (g * b - c * f) / (e * b - a * f);
+    double Y = (a * g - c * e) / (a * f - b * e);
+    r        = sqrt((X - x1) * (X - x1) + (Y - y1) * (Y - y1));
+    return std::move(POINT(X, Y));
 }
 /****************************************************************/
 

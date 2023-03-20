@@ -22,11 +22,18 @@ set(TS_FILES Crane_zh_CN.ts)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
+# 寻找Boost库并设置需要链接的库
+find_package(Boost REQUIRED COMPONENTS system)
+
 # 寻找所有目标目录下的源文件，包括.h .cpp .ui等等
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} PROJECT_SOURCES)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/pycheck PROJECT_SOURCES)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/generic PROJECT_SOURCES)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/qtlaboratory PROJECT_SOURCES)
+
+# 将头文件路径和链接库路径添加到编译选项中
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
 
 # 搜索ui文件
 set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/res/ui")
@@ -52,7 +59,7 @@ else()
 endif()
 
 # 链接库
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${Boost_LIBRARIES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER radica.Crane.com

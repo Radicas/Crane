@@ -11,6 +11,24 @@
 #include <QList>
 #include <QPainterPath>
 
+struct POINT {
+    double x;
+    double y;
+};
+
+struct LINE {
+    POINT sp;
+    POINT ep;
+};
+
+struct ARC {
+    POINT  sp;
+    POINT  ep;
+    POINT  cp;
+    double sa;
+    double swa;
+};
+
 class Shape {
 public:
     enum Type { Line, Arc };

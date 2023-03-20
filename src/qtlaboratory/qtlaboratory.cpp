@@ -4,9 +4,18 @@
 #include "ui_qtlaboratory.h"
 
 #include <QDebug>
-#include <QGraphicsItem>
 #include <QGraphicsView>
 #include <QTableView>
+
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/adapted/boost_tuple.hpp>
+#include <boost/geometry/geometries/polygon.hpp>
+#include <vector>
+
+BOOST_GEOMETRY_REGISTER_BOOST_TUPLE_CS(cs::cartesian)
+
+typedef boost::geometry::model::d2::point_xy<double> Point;
+typedef boost::geometry::model::polygon<Point>       Polygon;
 
 /* region Constructors / Destructor */
 QtLaboratory::QtLaboratory(QWidget* parent)
@@ -52,6 +61,8 @@ void QtLaboratory::roundRectBtnClicked() {
 }
 
 void QtLaboratory::circleBtnClicked() {
+    auto* item = new Circle();
+    m_scene->addItem(item);
     //    m_scene->addItem(item);
 }
 
@@ -60,29 +71,10 @@ void QtLaboratory::comPolyBtnClicked() {
 }
 
 void QtLaboratory::mergeBtnClicked() {
-    //    auto         items = m_scene->items();
-    //    QPainterPath path;
-    //    for (auto* i : items) {
-    //        path += i->mapToScene(i->shape());
-    //        m_scene->removeItem(i);
-    //    }
-    //    m_scene->addPath(path, QPen(Qt::yellow), QBrush(Qt::blue));
 }
 
 void QtLaboratory::overlapsBtnClicked() {
-    //    QPolygonF polygon;
-    //    polygon << QPointF(-150, -150) << QPointF(150, -150) << QPointF(150, 150) << QPointF(-150, 150) <<
-    //    QPointF(-150, -150); auto* rect = new DiagramItem(DiagramItem::DiagramType::Rectangle);
-    //    rect->setPolygon(polygon);
-    //    auto* circle = new DiagramItem(DiagramItem::DiagramType::Circle);
-    //    m_scene->addItem(rect);
-    //    m_scene->addItem(circle);
-    //    auto  path     = rect->shape() - circle->shape();
-    //    auto* pathItem = new QGraphicsPathItem(path);
-    //    pathItem->setBrush(QBrush(Qt::gray));
-    //    pathItem->setPen(Qt::NoPen);
-    //    pathItem->setFlags(QGraphicsItem::GraphicsItemFlag::ItemIsSelectable |
-    //    QGraphicsItem::GraphicsItemFlag::ItemIsMovable); m_scene->addItem(pathItem);
+
 }
 
 void QtLaboratory::clearBtnClicked() {
