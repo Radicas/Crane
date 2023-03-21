@@ -17,9 +17,16 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QPushButton" name="trianlgeBtn">
+       <property name="text">
+        <string>Triangle</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="rectBtn">
        <property name="text">
-        <string>rectangle</string>
+        <string>Rectangle</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -29,7 +36,7 @@
      <item>
       <widget class="QPushButton" name="roundRectBtn">
        <property name="text">
-        <string>round rect</string>
+        <string>Round Rectangle</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -39,7 +46,7 @@
      <item>
       <widget class="QPushButton" name="circleBtn">
        <property name="text">
-        <string>circle</string>
+        <string>Circle</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -47,9 +54,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="polygonBtn">
+      <widget class="QPushButton" name="curvedPolygonBtn">
        <property name="text">
-        <string>polygon</string>
+        <string>Curved Polygon</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -57,9 +64,23 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="mergeBtn">
+      <widget class="QPushButton" name="simplePolygonBtn">
        <property name="text">
-        <string>merge</string>
+        <string>Simple Polygon</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="intersectBtn">
+       <property name="text">
+        <string>Intersection</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="unionBtn">
+       <property name="text">
+        <string>Union</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -67,19 +88,26 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="overlapsBtn">
+      <widget class="QPushButton" name="subtractBtn">
        <property name="text">
-        <string>overlaps</string>
+        <string>Subtraction</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pathToPolygonBtn">
+       <property name="text">
+        <string>Path to Polygon</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="clearBtn">
        <property name="text">
-        <string>clear</string>
+        <string>Clear Screen</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>

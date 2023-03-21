@@ -32,7 +32,7 @@ void LabScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         m_is_moving   = true;
         m_item_offset = m_curr_item->pos() - event->scenePos();
         m_marked      = event->scenePos();
-        dynamic_cast<GeometryItem*>(m_curr_item)->setColor(QColor(Qt::gray).rgb());
+        dynamic_cast<GeometryItem*>(m_curr_item)->setColor(Crane::COLOR::GRAY.rgba());
     }
 }
 
@@ -45,17 +45,20 @@ void LabScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
 void LabScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
     if (m_curr_item) {
         if (event->scenePos() != m_marked) {
-            dynamic_cast<GeometryItem*>(m_curr_item)->setColor(Crane::COLOR::BLUE.rgb());
+            dynamic_cast<GeometryItem*>(m_curr_item)->setColor(Crane::COLOR::BLUE.rgba());
         }
         m_curr_item->update();
         m_curr_item = nullptr;
     }
     else {
         for (auto* item : m_select_items) {
-            dynamic_cast<GeometryItem*>(item)->setColor(Crane::COLOR::BLUE.rgb());
+            dynamic_cast<GeometryItem*>(item)->setColor(Crane::COLOR::BLUE.rgba());
             item->update();
         }
         m_select_items.clear();
     }
     m_is_moving = false;
+}
+QVector<QGraphicsItem*>& LabScene::getSelectedItems() {
+    return m_select_items;
 }

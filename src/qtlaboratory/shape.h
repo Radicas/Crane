@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include <QList>
 #include <QPainterPath>
+#include <vector>
 
 struct POINT {
     double x;
@@ -29,43 +29,43 @@ struct ARC {
     double swa;
 };
 
+enum elementType { Line, Arc };
+
+struct PathElement {
+    elementType type;
+    QPointF     startPoint;
+    QPointF     endPoint;
+    QPointF     centerPoint;
+    qreal       radius;
+    qreal       startAngle;
+    qreal       spanAngle;
+
+    PathElement(QPointF sp, QPointF ep)
+        : type(Line)
+        , startPoint(sp)
+        , endPoint(ep)
+        , centerPoint()
+        , radius()
+        , startAngle()
+        , spanAngle() {}
+
+    PathElement(QPointF sp, QPointF ep, QPointF center, qreal radius, qreal sa, qreal swa)
+        : type(Arc)
+        , startPoint(sp)
+        , endPoint(ep)
+        , centerPoint(center)
+        , radius(radius)
+        , startAngle(sa)
+        , spanAngle(swa) {}
+};
+
 class Shape {
 public:
-    enum Type { Line, Arc };
-
-    struct PathSegment {
-        Type    type;
-        QPointF startPoint;
-        QPointF endPoint;
-        QPointF centerPoint;
-        qreal   radius;
-        qreal   startAngle;
-        qreal   spanAngle;
-
-        PathSegment(QPointF sp, QPointF ep)
-            : type(Line)
-            , startPoint(sp)
-            , endPoint(ep)
-            , centerPoint()
-            , radius()
-            , startAngle()
-            , spanAngle() {}
-
-        PathSegment(QPointF sp, QPointF ep, QPointF center, qreal radius, qreal sa, qreal swa)
-            : type(Arc)
-            , startPoint(sp)
-            , endPoint(ep)
-            , centerPoint(center)
-            , radius(radius)
-            , startAngle(sa)
-            , spanAngle(swa) {}
-    };
-
     Shape();
 
     ~Shape();
 
-    void addSegment(PathSegment segment);
+    void addSegment(PathElement segment);
 
     void addHole(Shape hole);
 
@@ -80,8 +80,10 @@ public:
     const QPainterPath& path() const;
 
 protected:
-    QPainterPath m_path;
-    QList<Shape> m_holes;
+    QPainterPath             m_path;
+    std::vector<Shape>       m_holes;
+    std::vector<PathElement> m_path_elements;
+    std::vector<QPolygonF>   m_vertex;
 
 private:
 };

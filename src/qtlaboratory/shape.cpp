@@ -1,15 +1,19 @@
 #include "shape.h"
 
-Shape::Shape() = default;
+Shape::Shape()
+    : m_path()
+    , m_holes()
+    , m_path_elements() {}
 
 Shape::~Shape() = default;
 
-void Shape::addSegment( PathSegment segment ) {
-    if ( segment.type == Line ) {
-        m_path.lineTo( segment.endPoint );
+void Shape::addSegment(PathElement segment) {
+    if (segment.type == Line) {
+        m_path.lineTo(segment.endPoint);
     }
-    else if ( segment.type == Arc ) {
-        m_path.arcTo( segment.centerPoint.x() - segment.radius, segment.centerPoint.y() - segment.radius, segment.radius * 2, segment.radius * 2, segment.startAngle, segment.spanAngle );
+    else if (segment.type == Arc) {
+        m_path.arcTo(segment.centerPoint.x() - segment.radius, segment.centerPoint.y() - segment.radius,
+                     segment.radius * 2, segment.radius * 2, segment.startAngle, segment.spanAngle);
     }
 }
 

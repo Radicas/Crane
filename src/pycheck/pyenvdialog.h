@@ -23,6 +23,7 @@ class PyEnvDialog : public QDialog {
     Q_OBJECT
 public:
     PyEnvDialog( QWidget* parent = nullptr );
+
     ~PyEnvDialog();
 
 private:
@@ -30,6 +31,7 @@ private:
 
 private slots:
     void checked();
+
     void clearText();
 
 private:

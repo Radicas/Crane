@@ -37,4 +37,18 @@ public:
     ~Circle() override;
 };
 
+class Polygon : public GeometryItem {
+public:
+    explicit Polygon(const QPolygonF& polygon, QGraphicsItem* parent = nullptr);
+
+    ~Polygon() override;
+};
+
+class CurvePolygon : public GeometryItem {
+public:
+    explicit CurvePolygon(QGraphicsItem* parent = nullptr);
+
+    ~CurvePolygon() override;
+};
+
 #endif  // REDEDA_GEOMETRYITEM_H
