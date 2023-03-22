@@ -8,29 +8,19 @@
  * @copyright Copyright (c) 2023
  *
  */
+#include "generic/geometry_algo.hpp"
+
 #include <QPainterPath>
 #include <vector>
 
-struct POINT {
-    double x;
-    double y;
-};
-
-struct LINE {
-    POINT sp;
-    POINT ep;
-};
-
-struct ARC {
-    POINT  sp;
-    POINT  ep;
-    POINT  cp;
-    double sa;
-    double swa;
-};
-
+/**
+ * @brief 路径元素类型
+ */
 enum elementType { Line, Arc };
 
+/**
+ * @brief 路径元素
+ */
 struct PathElement {
     elementType type;
     QPointF     startPoint;
@@ -58,7 +48,7 @@ struct PathElement {
         , startAngle(sa)
         , spanAngle(swa) {}
 };
-
+using namespace geometry;
 class Shape {
 public:
     Shape();
@@ -80,10 +70,11 @@ public:
     const QPainterPath& path() const;
 
 protected:
-    QPainterPath             m_path;
-    std::vector<Shape>       m_holes;
-    std::vector<PathElement> m_path_elements;
-    std::vector<QPolygonF>   m_vertex;
+    QPainterPath             m_path;           // 绘制路径
+    std::vector<SEGMENT>     m_outlines;       // 边界线段组
+    std::vector<Shape>       m_holes;          // 孔洞
+    std::vector<PathElement> m_path_elements;  // 路径元素，用于show info，导出标准数据等
+    std::vector<QPolygonF>   m_vertex;         // 顶点
 
 private:
 };

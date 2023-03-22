@@ -2,8 +2,10 @@
 
 Shape::Shape()
     : m_path()
+    , m_outlines()
     , m_holes()
-    , m_path_elements() {}
+    , m_path_elements()
+    , m_vertex() {}
 
 Shape::~Shape() = default;
 

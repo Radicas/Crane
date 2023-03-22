@@ -32,6 +32,13 @@ Rectangle::Rectangle(QGraphicsItem* parent)
     : GeometryItem(parent) {
     QPolygonF polygon;
     polygon << QPointF(-100, -100) << QPointF(100, -100) << QPointF(100, 100) << QPointF(-100, 100);
+    for (int i = 0; i < polygon.size(); ++i) {
+        int     startIndex = i;
+        int     endIndex   = i == polygon.size() - 1 ? 0 : i + 1;
+        SEGMENT seg(POINT(polygon[startIndex].x(), polygon[startIndex].y()),
+                    POINT(polygon[endIndex].x(), polygon[endIndex].y()));
+        m_outlines.push_back(seg);
+    }
     QPainterPath path;
     path.moveTo(polygon.first());
     for (int i = 1; i < polygon.size(); ++i) {
@@ -42,15 +49,32 @@ Rectangle::Rectangle(QGraphicsItem* parent)
     qDebug() << "rect path: " << m_path;
 }
 
-Rectangle::~Rectangle() {}
+Rectangle::~Rectangle() = default;
 
 Circle::Circle(QGraphicsItem* parent)
     : GeometryItem(parent) {
-    m_path.addEllipse(QPointF(0, 0), 50, 50);
-    qDebug() << "circle: " << m_path;
+    auto outlinePoints = arc2segments(0, 0, 50, 0, 360 * G_PI / 180, 64);
+    for (int i = 0; i < outlinePoints.size(); ++i) {
+        int     startIndex = i;
+        int     endIndex   = i == outlinePoints.size() - 1 ? 0 : i + 1;
+        SEGMENT seg(POINT(outlinePoints[startIndex].x, outlinePoints[startIndex].y),
+                    POINT(outlinePoints[endIndex].x, outlinePoints[endIndex].y));
+        m_outlines.push_back(seg);
+    }
+    m_path.moveTo(outlinePoints[0].x, outlinePoints[0].y);
+    for (auto& outlinePoint : outlinePoints) {
+        m_path.lineTo(QPointF(outlinePoint.x, outlinePoint.y));
+    }
+    //    m_path.moveTo(-25, 25);
+    //    m_path.lineTo(25, 25);
+    //    m_path.lineTo(25, -25);
+    //    m_path.lineTo(-25, -25);
+    //    m_path.lineTo(-25, 25);
+    //    m_path.closeSubpath();
+    //    m_path.closeSubpath();
 }
 
-Circle::~Circle() {}
+Circle::~Circle() = default;
 
 CurvePolygon::CurvePolygon(QGraphicsItem* parent)
     : GeometryItem(parent) {

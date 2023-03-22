@@ -12,6 +12,8 @@
 #define REDEDA_GEOMETRY_ALGO_H
 
 #include <cmath>
+#include <qdebug.h>
+#include <vector>
 
 namespace geometry {
 
@@ -34,20 +36,34 @@ struct POINT {
         x = a;
         y = b;
     }  // constructor
+    POINT operator-(const POINT& p) {
+        return POINT(x - p.x, y - p.y);
+    }
+    POINT operator+(const POINT& p) {
+        return POINT(x + p.x, y + p.y);
+    }
+    POINT operator*(double d) {
+        return POINT(x * d, y * d);
+    }
 };
+
+/**
+ * @brief 向量
+ */
+typedef POINT VECTOR2D;
 
 /**
  * @brief 线段
  *
  */
-struct LINESEG {
+struct SEGMENT {
     POINT s;
     POINT e;
-    LINESEG(POINT a, POINT b) {
+    SEGMENT(POINT a, POINT b) {
         s = a;
         e = b;
     }
-    LINESEG() {}
+    SEGMENT() {}
 };
 
 /**
@@ -153,6 +169,26 @@ static double multiply(POINT sp, POINT ep, POINT op) {
 static double g_module(POINT sp, POINT ep) {
     return sqrt((ep.x - sp.x) * (ep.x - sp.x) + (ep.y - sp.y) * (ep.y - sp.y));
 }
+
+/**
+ * @brief 向量的模
+ *
+ * @param VECTOR2D
+ * @return double
+ */
+static double g_module(VECTOR2D v) {
+    return std::sqrt(v.x * v.x + v.y * v.y);
+}
+
+/**
+ * @brief 将向量转换为单位向量
+ * @param v
+ * @return
+ */
+static VECTOR2D g_normalize(VECTOR2D v) {
+    double len = g_module(v);
+    return VECTOR2D{ v.x / len, v.y / len };
+}
 /***************************************************************/
 
 /************************线段、直线基本运算***********************/
@@ -177,8 +213,8 @@ static double g_module(POINT sp, POINT ep) {
  * @param l
  * @return double
  */
-static double relation(POINT p, LINESEG l) {
-    LINESEG tl;
+static double relation(POINT p, SEGMENT l) {
+    SEGMENT tl;
     tl.s = l.s;
     tl.e = p;
     return dotmultiply(tl.e, l.e, l.s) / (dist(l.s, l.e) * dist(l.s, l.e));
@@ -191,7 +227,7 @@ static double relation(POINT p, LINESEG l) {
  * @param l
  * @return POINT
  */
-static POINT perpendicular(POINT p, LINESEG l) {
+static POINT perpendicular(POINT p, SEGMENT l) {
     double r = relation(p, l);
     POINT  tp;
     tp.x = l.s.x + r * (l.e.x - l.s.x);
@@ -208,7 +244,7 @@ static POINT perpendicular(POINT p, LINESEG l) {
  * @param np
  * @return double
  */
-static double ptolinesegdist(POINT p, LINESEG l, POINT& np) {
+static double ptolinesegdist(POINT p, SEGMENT l, POINT& np) {
     double r = relation(p, l);
     if (r < 0) {
         np = l.s;
@@ -231,10 +267,10 @@ static double ptolinesegdist(POINT p, LINESEG l, POINT& np) {
  * @return true 相交
  * @return false 不相交
  */
-static bool intersect(LINESEG u, LINESEG v) {
-    return ((std::max(u.s.x, u.e.x) >= std::min(v.s.x, v.e.x)) &&  // 排斥实验
-            (std::max(v.s.x, v.e.x) >= std::min(u.s.x, u.e.x)) && (std::max(u.s.y, u.e.y) >= std::min(v.s.y, v.e.y))
-            && (std::max(v.s.y, v.e.y) >= std::min(u.s.y, u.e.y))
+static bool intersect(SEGMENT u, SEGMENT v) {
+    return ((std::fmax(u.s.x, u.e.x) >= std::fmin(v.s.x, v.e.x)) &&  // 排斥实验
+            (std::fmax(v.s.x, v.e.x) >= std::fmin(u.s.x, u.e.x)) && (std::fmax(u.s.y, u.e.y) >= std::fmin(v.s.y, v.e.y))
+            && (std::fmax(v.s.y, v.e.y) >= std::fmin(u.s.y, u.e.y))
             && (multiply(v.s, u.e, u.s) * multiply(u.e, v.e, u.s) >= 0) &&  // 跨立实验
             (multiply(u.s, v.e, v.s) * multiply(v.e, u.e, v.s) >= 0));
 }
@@ -310,25 +346,22 @@ static double sweepAngle(POINT p1, POINT p2, POINT op) {
  * @param np 某点距离圆弧最近的点
  * @return double
  */
-// static double ptoarcsegdist( POINT p, ARC a, POINT& np ) {
-//  using namespace rededa::Vector;
-//  LINESEG se(a.st, a.et);
-//  double spdist = dist(a.st, p);
-//  double epdist = dist(a.et, p);
-//  if (intersect(ptoline(a.c, p), ptoline(a.st, a.et), np))
-//  {
-//      auto r = relation(np, se);
-//      if (r >= 0 && r <= 1 && dotmultiply(p, np, a.c) > 0)
-//      {
-//          auto cp(p - a.c);
-//          auto normalCP = normalized(cp);
-//          np = a.r * normalCP + a.c;
-//          return std::abs(module(cp) - a.r);
-//      }
-//  }
-//  np = spdist < epdist ? a.st : a.et;
-//  return std::min(spdist, epdist);
-//}
+static double ptoarcsegdist(POINT p, ARC a, POINT& np) {
+    SEGMENT se(a.st, a.et);
+    double  spdist = dist(a.st, p);
+    double  epdist = dist(a.et, p);
+    if (intersect(ptoline(a.c, p), ptoline(a.st, a.et), np)) {
+        auto r = relation(np, se);
+        if (r >= 0 && r <= 1 && dotmultiply(p, np, a.c) > 0) {
+            auto cp(p - a.c);
+            auto normalCP = g_normalize(cp);
+            np            = (normalCP * a.r) + a.c;
+            return std::abs(g_module(p, a.c) - a.r);
+        }
+    }
+    np = spdist < epdist ? a.st : a.et;
+    return std::fmin(spdist, epdist);
+}
 
 /**
  * @brief 判断点是否在圆内(包括边界)
@@ -375,6 +408,14 @@ static int circlerelation(POINT p1, double r1, POINT p2, double r2) {
     return 0;  // indicate an error!
 }
 
+/**
+ * @brief 三点决定一个圆
+ * @param p1
+ * @param p2
+ * @param p3
+ * @param r
+ * @return
+ */
 static POINT trip2circle(POINT p1, POINT p2, POINT p3, double& r) {
     double x1, y1, x2, y2, x3, y3;
     double a, b, c, g, e, f;
@@ -394,6 +435,44 @@ static POINT trip2circle(POINT p1, POINT p2, POINT p3, double& r) {
     double Y = (a * g - c * e) / (a * f - b * e);
     r        = sqrt((X - x1) * (X - x1) + (Y - y1) * (Y - y1));
     return std::move(POINT(X, Y));
+}
+
+/**
+ * @brief 将一个弧转换为给定数量的线段
+ *        这里的角度都是弧度制
+ * @param cx 圆心坐标x
+ * @param cy 圆心坐标y
+ * @param r  半径
+ * @param startAngle  起始角度
+ * @param endAngle    终止角度
+ * @param numSegments 线段数量
+ * @return 一个包含线段端点坐标的向量
+ */
+static std::vector<POINT> arc2segments(double cx, double cy, double r, double startAngle, double endAngle,
+                                       int numSegments) {
+    std::vector<POINT> points;
+    double             theta           = (endAngle - startAngle) / numSegments;
+    double             tangetialFactor = tan(theta);
+    double             radialFactor    = cos(theta);
+    double             x               = r * cos(startAngle);
+    double             y               = r * sin(startAngle);
+
+    for (int i = 0; i < numSegments; i++) {
+        points.emplace_back(cx + x, cy + y);
+        double tx = -y;
+        double ty = x;
+        x += tx * tangetialFactor;
+        y += ty * tangetialFactor;
+        x *= radialFactor;
+        y *= radialFactor;
+    }
+
+    points.emplace_back(cx + r * cos(endAngle), cy + r * sin(endAngle));
+    qDebug() << "********************弧线转线段**********************";
+    for (auto p : points) {
+        qDebug() << p.x << "," << p.y;
+    }
+    return points;
 }
 /****************************************************************/
 
