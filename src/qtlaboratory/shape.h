@@ -8,8 +8,6 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include "generic/geometry_algo.hpp"
-
 #include <QPainterPath>
 #include <vector>
 
@@ -48,7 +46,7 @@ struct PathElement {
         , startAngle(sa)
         , spanAngle(swa) {}
 };
-using namespace geometry;
+using namespace R_GEOMETRY;
 class Shape {
 public:
     Shape();

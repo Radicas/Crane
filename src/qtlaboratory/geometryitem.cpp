@@ -53,7 +53,7 @@ Rectangle::~Rectangle() = default;
 
 Circle::Circle(QGraphicsItem* parent)
     : GeometryItem(parent) {
-    auto outlinePoints = arc2segments(0, 0, 50, 0, 360 * G_PI / 180, 64);
+    auto outlinePoints = arc2segments(0, 0, 50, 0, 360 * R_GEOMETRY::PI / 180, 64);
     for (int i = 0; i < outlinePoints.size(); ++i) {
         int     startIndex = i;
         int     endIndex   = i == outlinePoints.size() - 1 ? 0 : i + 1;
