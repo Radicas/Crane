@@ -16,8 +16,7 @@ set(BOOST_ROOT "/path/to/boost")
 # 设置安装路径
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
 
-add_subdirectory(algorithm)
-#add_subdirectory(src)
+add_subdirectory(src)
 
 # 测试代码
 #add_subdirectory(test)

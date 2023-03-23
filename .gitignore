@@ -77,6 +77,6 @@ Thumbs.db
 .clang-tidy
 .vscode
 .idea
-cmake-build-debug
+cmake-build*
 build
 install
