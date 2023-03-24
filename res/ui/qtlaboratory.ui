@@ -26,7 +26,7 @@
      <item>
       <widget class="QPushButton" name="rectBtn">
        <property name="text">
-        <string>Rectangle</string>
+        <string>RectangleItem</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -36,7 +36,7 @@
      <item>
       <widget class="QPushButton" name="roundRectBtn">
        <property name="text">
-        <string>Round Rectangle</string>
+        <string>Round RectangleItem</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -46,7 +46,7 @@
      <item>
       <widget class="QPushButton" name="circleBtn">
        <property name="text">
-        <string>Circle</string>
+        <string>CircleItem</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -56,7 +56,7 @@
      <item>
       <widget class="QPushButton" name="curvedPolygonBtn">
        <property name="text">
-        <string>Curved Polygon</string>
+        <string>Curved PolygonItem</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -66,7 +66,7 @@
      <item>
       <widget class="QPushButton" name="simplePolygonBtn">
        <property name="text">
-        <string>Simple Polygon</string>
+        <string>Simple PolygonItem</string>
        </property>
       </widget>
      </item>
@@ -100,7 +100,7 @@
      <item>
       <widget class="QPushButton" name="pathToPolygonBtn">
        <property name="text">
-        <string>Path to Polygon</string>
+        <string>Path to PolygonItem</string>
        </property>
       </widget>
      </item>

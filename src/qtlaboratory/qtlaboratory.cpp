@@ -6,16 +6,11 @@
 
 #include <QDebug>
 #include <QTableView>
-
-// #include <boost/geometry.hpp>
-// #include <boost/geometry/geometries/adapted/boost_tuple.hpp>
-// #include <boost/geometry/geometries/polygon.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/geometry/geometries/polygon.hpp>
+#include <boost/geometry/geometry.hpp>
+#include <boost/polygon/polygon.hpp>
 #include <vector>
-
-// BOOST_GEOMETRY_REGISTER_BOOST_TUPLE_CS(cs::cartesian)
-//
-// typedef boost::geometry::model::d2::point_xy<double> Point;
-// typedef boost::geometry::model::polygon<Point>       Polygon;
 
 /* region Constructors / Destructor */
 QtLaboratory::QtLaboratory(QWidget* parent)
@@ -40,6 +35,7 @@ void QtLaboratory::initScene() {
 }
 
 void QtLaboratory::initConnects() {
+    connect(m_ui->trianlgeBtn, SIGNAL(clicked()), this, SLOT(triangleBtnClicked()));
     connect(m_ui->rectBtn, SIGNAL(clicked()), this, SLOT(rectBtnClicked()));
     connect(m_ui->roundRectBtn, SIGNAL(clicked()), this, SLOT(roundRectBtnClicked()));
     connect(m_ui->circleBtn, SIGNAL(clicked()), this, SLOT(circleBtnClicked()));
@@ -53,8 +49,43 @@ void QtLaboratory::initConnects() {
 /* endregion */
 
 /* region Slots Methods */
+void QtLaboratory::triangleBtnClicked() {
+    namespace bg = boost::geometry;
+    namespace bp = boost::polygon;
+    //    typedef bg::model::point<double, 2, bg::cs::cartesian> point_t;  // 二纬笛卡尔坐标系
+    typedef bg::model::d2::point_xy<double> point_t;
+    typedef bg::model::polygon<point_t>     polygon_t;  // polygon_t的外边框是顺时针，孔洞边框是
+                                                        // 逆时针
+    polygon_t poly1;
+#if !defined(BOOST_NO_CXX11_UNIFIED_INITIALIZATION_SYNTAX) && !defined(BOOST_NO_CXX11_HDR_INITIALIZER_LIST)
+    polygon_t poly2{ { { 0.0, 0.0 }, { 0.0, 5.0 }, { 5.0, 5.0 }, { 5.0, 0.0 }, { 0.0, 0.0 } },
+                     { { 1.0, 1.0 }, { 4.0, 1.0 }, { 4.0, 4.0 }, { 1.0, 4.0 }, { 1.0, 1.0 } } };
+#endif
+    bg::append(poly1.outer(), point_t(0.0, 0.0));
+    bg::append(poly1.outer(), point_t(0.0, 5.0));
+    bg::append(poly1.outer(), point_t(5.0, 5.0));
+    bg::append(poly1.outer(), point_t(5.0, 0.0));
+    bg::append(poly1.outer(), point_t(0.0, 0.0));
+
+    poly1.inners().resize(1);
+    bg::append(poly1.inners()[0], point_t(1.0, 1.0));
+    bg::append(poly1.inners()[0], point_t(4.0, 1.0));
+    bg::append(poly1.inners()[0], point_t(4.0, 4.0));
+    bg::append(poly1.inners()[0], point_t(1.0, 4.0));
+    bg::append(poly1.inners()[0], point_t(1.0, 1.0));
+
+    double a = bg::area(poly1);  // 面积
+    std::cout << "poly1 area: " << a << std::endl;
+    double b = bg::area(poly2);  // 面积
+    std::cout << "poly2 area: " << b << std::endl;
+
+    polygon_t result{};
+    bg::union_(poly1, poly2, result);
+    bg::intersection(poly1, poly2, result);
+}
+
 void QtLaboratory::rectBtnClicked() {
-    auto* item = new Rectangle();
+    auto* item = new RectangleItem();
     m_scene->addItem(item);
 }
 
@@ -63,18 +94,48 @@ void QtLaboratory::roundRectBtnClicked() {
 }
 
 void QtLaboratory::circleBtnClicked() {
-    auto* item = new Circle();
+    auto* item = new CircleItem();
     m_scene->addItem(item);
     //    m_scene->addItem(item);
 }
 
 void QtLaboratory::curvedPolyBtnClicked() {
-    auto* item = new CurvePolygon();
+    auto* item = new CurvePolygonItem();
     m_scene->addItem(item);
 }
+
 void QtLaboratory::intersectBtnClicked() {}
 
-void QtLaboratory::unionBtnClicked() {}
+void QtLaboratory::unionBtnClicked() {
+    namespace bg = boost::geometry;
+    namespace bp = boost::polygon;
+
+    auto& items = m_scene->getSelectedItems();
+    if (items.size() >= 2) {
+        auto* item1  = items.at(0);
+        auto& outer1 = dynamic_cast<Shape*>(item1)->getOuter();
+        std::cout << "rect: " << std::endl;
+        for (auto p : outer1) {
+            std::cout << "outline: "
+                      << "(" << p.x << "," << p.y << ")" << std::endl;
+        }
+        auto& polys_inner = dynamic_cast<Shape*>(item1)->getInner();
+        for (const auto& inner : polys_inner) {
+            for (const auto& p : inner) {
+                std::cout << "inner: "
+                          << "(" << p.x << "," << p.y << ")" << std::endl;
+            }
+        }
+
+        auto* item2  = items.at(1);
+        auto& outer2 = dynamic_cast<Shape*>(item2)->getOuter();
+        std::cout << "circle: " << std::endl;
+        for (auto p : outer2) {
+            std::cout << "outline: "
+                      << "(" << p.x << "," << p.y << ")" << std::endl;
+        }
+    }
+}
 
 void QtLaboratory::subtractBtnClicked() {}
 

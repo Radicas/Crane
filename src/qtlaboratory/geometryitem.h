@@ -21,34 +21,34 @@ private:
     unsigned int m_selected_color;
 };
 
-class Rectangle : public GeometryItem {
+class RectangleItem : public GeometryItem {
 private:
     /* data */
 public:
-    explicit Rectangle(QGraphicsItem* parent = nullptr);
+    explicit RectangleItem(QGraphicsItem* parent = nullptr);
 
-    ~Rectangle() override;
+    ~RectangleItem() override;
 };
 
-class Circle : public GeometryItem {
+class CircleItem : public GeometryItem {
 public:
-    explicit Circle(QGraphicsItem* parent = nullptr);
+    explicit CircleItem(QGraphicsItem* parent = nullptr);
 
-    ~Circle() override;
+    ~CircleItem() override;
 };
 
-class Polygon : public GeometryItem {
+class PolygonItem : public GeometryItem {
 public:
-    explicit Polygon(const QPolygonF& polygon, QGraphicsItem* parent = nullptr);
+    explicit PolygonItem(const QPolygonF& polygon, QGraphicsItem* parent = nullptr);
 
-    ~Polygon() override;
+    ~PolygonItem() override;
 };
 
-class CurvePolygon : public GeometryItem {
+class CurvePolygonItem : public GeometryItem {
 public:
-    explicit CurvePolygon(QGraphicsItem* parent = nullptr);
+    explicit CurvePolygonItem(QGraphicsItem* parent = nullptr);
 
-    ~CurvePolygon() override;
+    ~CurvePolygonItem() override;
 };
 
 #endif  // REDEDA_GEOMETRYITEM_H

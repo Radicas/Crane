@@ -11,7 +11,10 @@
 #ifndef CRANE_GEOMETRY_ALGO_H
 #define CRANE_GEOMETRY_ALGO_H
 
+#include <iostream>
 #include <vector>
+
+namespace TRAITS {}
 
 namespace R_GEOMETRY {
 
@@ -28,7 +31,12 @@ const double PI   = 3.14159265;  // 圆周率
 struct POINT {
     double x;
     double y;
-    explicit POINT(double a = 0, double b = 0);
+    POINT(double a = 0, double b = 0)
+        : x(a)
+        , y(b){};
+    POINT(const POINT& p)
+        : x(p.x)
+        , y(p.y) {}
     POINT operator-(const POINT& p) const;
     POINT operator+(const POINT& p) const;
     POINT operator*(double d) const;

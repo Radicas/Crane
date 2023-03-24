@@ -1,4 +1,5 @@
 #include "geometryitem.h"
+#include "algorithm/geometry/polygon.h"
 #include "craneglobal.h"
 
 #include <QDebug>
@@ -28,43 +29,52 @@ QRectF GeometryItem::boundingRect() const {
     return m_path.boundingRect();
 }
 
-Rectangle::Rectangle(QGraphicsItem* parent)
+RectangleItem::RectangleItem(QGraphicsItem* parent)
     : GeometryItem(parent) {
-    QPolygonF polygon;
-    polygon << QPointF(-100, -100) << QPointF(100, -100) << QPointF(100, 100) << QPointF(-100, 100);
-    for (int i = 0; i < polygon.size(); ++i) {
-        int     startIndex = i;
-        int     endIndex   = i == polygon.size() - 1 ? 0 : i + 1;
-        SEGMENT seg(POINT(polygon[startIndex].x(), polygon[startIndex].y()),
-                    POINT(polygon[endIndex].x(), polygon[endIndex].y()));
-        m_outlines.push_back(seg);
-    }
+    R_GEOMETRY::Polygon outer, inner1;
+    outer.emplace_back(-100, 100);
+    outer.emplace_back(100, 100);
+    outer.emplace_back(100, -100);
+    outer.emplace_back(-100, -100);
+    outer.emplace_back(-100, 100);
+
+    inner1.emplace_back(-50, 50);
+    inner1.emplace_back(50, 50);
+    inner1.emplace_back(50, -50);
+    inner1.emplace_back(-50, -50);
+    inner1.emplace_back(-50, 50);
+
+    m_polygon_with_holes.setOuter(outer);
+    m_polygon_with_holes.setInner({ inner1 });
+
+    // TODO: add to polygon_with_holes
     QPainterPath path;
-    path.moveTo(polygon.first());
-    for (int i = 1; i < polygon.size(); ++i) {
-        path.lineTo(polygon.at(i));
+    path.moveTo(QPointF(outer[0].x, outer[0].y));
+    for (auto& i : outer) {
+        path.lineTo(QPointF(i.x, i.y));
+    }
+    path.moveTo(QPointF(inner1[0].x, inner1[0].y));
+    for (auto& i : inner1) {
+        path.lineTo(i.x, i.y);
     }
     path.closeSubpath();
     m_path = path;
     qDebug() << "rect path: " << m_path;
 }
 
-Rectangle::~Rectangle() = default;
+RectangleItem::~RectangleItem() = default;
 
-Circle::Circle(QGraphicsItem* parent)
+CircleItem::CircleItem(QGraphicsItem* parent)
     : GeometryItem(parent) {
-    auto outlinePoints = arc2segments(0, 0, 50, 0, 360 * R_GEOMETRY::PI / 180, 64);
-    for (int i = 0; i < outlinePoints.size(); ++i) {
-        int     startIndex = i;
-        int     endIndex   = i == outlinePoints.size() - 1 ? 0 : i + 1;
-        SEGMENT seg(POINT(outlinePoints[startIndex].x, outlinePoints[startIndex].y),
-                    POINT(outlinePoints[endIndex].x, outlinePoints[endIndex].y));
-        m_outlines.push_back(seg);
-    }
-    m_path.moveTo(outlinePoints[0].x, outlinePoints[0].y);
-    for (auto& outlinePoint : outlinePoints) {
+    auto outer = R_GEOMETRY::arc2segments(0, 0, 50, 0, 360 * R_GEOMETRY::PI / 180, 360);
+    m_path.moveTo(outer[0].x, outer[0].y);
+    for (auto& outlinePoint : outer) {
         m_path.lineTo(QPointF(outlinePoint.x, outlinePoint.y));
     }
+
+    m_polygon_with_holes.setOuter(outer);
+    m_polygon_with_holes.setInner({});
+    /* 孔洞 */
     //    m_path.moveTo(-25, 25);
     //    m_path.lineTo(25, 25);
     //    m_path.lineTo(25, -25);
@@ -74,9 +84,9 @@ Circle::Circle(QGraphicsItem* parent)
     //    m_path.closeSubpath();
 }
 
-Circle::~Circle() = default;
+CircleItem::~CircleItem() = default;
 
-CurvePolygon::CurvePolygon(QGraphicsItem* parent)
+CurvePolygonItem::CurvePolygonItem(QGraphicsItem* parent)
     : GeometryItem(parent) {
     // 将路径移动到矩形的左上角
     m_path.moveTo(10, 10);
@@ -93,12 +103,11 @@ CurvePolygon::CurvePolygon(QGraphicsItem* parent)
     qDebug() << "CurvePolygon" << m_path;
 }
 
-CurvePolygon::~CurvePolygon() = default;
+CurvePolygonItem::~CurvePolygonItem() = default;
 
-Polygon::Polygon(const QPolygonF& polygon, QGraphicsItem* parent)
+PolygonItem::PolygonItem(const QPolygonF& polygon, QGraphicsItem* parent)
     : GeometryItem(parent) {
     m_path.addPolygon(polygon);
     qDebug() << "Polygon" << m_path;
 }
-
-Polygon::~Polygon() = default;
+PolygonItem::~PolygonItem() {}

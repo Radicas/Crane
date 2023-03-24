@@ -9,8 +9,11 @@
  *
  */
 #include "algorithm/geometry/geometry_algo.h"
+#include "algorithm/geometry/polygon.h"
 #include <QPainterPath>
 #include <vector>
+
+typedef R_GEOMETRY::POINT POINT;
 /**
  * @brief 路径元素类型
  */
@@ -21,14 +24,14 @@ enum elementType { Line, Arc };
  */
 struct PathElement {
     elementType type;
-    QPointF     startPoint;
-    QPointF     endPoint;
-    QPointF     centerPoint;
+    POINT       startPoint;
+    POINT       endPoint;
+    POINT       centerPoint;
     qreal       radius;
     qreal       startAngle;
     qreal       spanAngle;
 
-    PathElement(QPointF sp, QPointF ep)
+    PathElement(POINT sp, POINT ep)
         : type(Line)
         , startPoint(sp)
         , endPoint(ep)
@@ -37,7 +40,7 @@ struct PathElement {
         , startAngle()
         , spanAngle() {}
 
-    PathElement(QPointF sp, QPointF ep, QPointF center, qreal radius, qreal sa, qreal swa)
+    PathElement(POINT sp, POINT ep, POINT center, qreal radius, qreal sa, qreal swa)
         : type(Arc)
         , startPoint(sp)
         , endPoint(ep)
@@ -46,7 +49,6 @@ struct PathElement {
         , startAngle(sa)
         , spanAngle(swa) {}
 };
-using namespace R_GEOMETRY;
 class Shape {
 public:
     Shape();
@@ -55,9 +57,9 @@ public:
 
     void addSegment(PathElement segment);
 
-    void addHole(Shape hole);
+    void addHole(const Shape& hole);
 
-    bool contains(const QPointF& point) const;
+    bool contains(const POINT& point) const;
 
     Shape intersected(const Shape& other) const;
 
@@ -67,12 +69,15 @@ public:
 
     const QPainterPath& path() const;
 
+    R_GEOMETRY::Polygon& getOuter();
+
+    std::vector<R_GEOMETRY::Polygon>& getInner();
+
 protected:
-    QPainterPath             m_path;           // 绘制路径
-    std::vector<SEGMENT>     m_outlines;       // 边界线段组
-    std::vector<Shape>       m_holes;          // 孔洞
-    std::vector<PathElement> m_path_elements;  // 路径元素，用于show info，导出标准数据等
-    std::vector<QPolygonF>   m_vertex;         // 顶点
+    QPainterPath                 m_path;                // 绘制路径
+    R_GEOMETRY::PolygonWithHoles m_polygon_with_holes;  // 带孔多边形
+    std::vector<PathElement>     m_path_elements;       // 路径元素，用于show info，导出标准数据等
+    std::vector<QPolygonF>       m_vertex;              // 顶点
 
 private:
 };

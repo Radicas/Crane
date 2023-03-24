@@ -5,12 +5,17 @@
 
 namespace R_GEOMETRY {
 
-/* 专业名词介绍
+/*
+ * 专业名词介绍
  *
- * Delta（Δ）：表示两个数之间的差异或变化量，通常用于比较两个数的变化大小。在计算机中，Delta通常用于表示精度或误差，例如比较两个浮点数的差值是否小于Delta。
- * Tolerance（公差）：表示允许的误差范围或容忍度，通常用于判断一个值是否在指定的范围内。在计算机中，Tolerance通常用于比较两个浮点数的大小，或者判断一个值是否等于另一个值，例如在图形学中，判断一个点是否在指定的区域内。
- * Precision（精度）：表示一个量的精确程度或准确度，通常用于描述一个测量或计算结果的可靠程度。在计算机中，Precision通常用于表示浮点数的位数或有效数字位数，例如单精度浮点数的精度为7位，双精度浮点数的精度为15位。
- * Error（误差）：表示测量或计算结果与真实值之间的差异或偏差，通常用于描述一个测量或计算的准确度。在计算机中，Error通常用于表示程序运行时出现的错误或异常，例如除零错误、内存溢出等。
+ * Delta(Δ):
+ * 表示两个数之间的差异或变化量，通常用于比较两个数的变化大小。在计算机中，Delta通常用于表示精度或误差，例如比较两个浮点数的差值是否小于Delta。
+ * Tolerance(公差):
+ * 表示允许的误差范围或容忍度，通常用于判断一个值是否在指定的范围内。在计算机中，Tolerance通常用于比较两个浮点数的大小，或者判断一个值是否等于另一个值，例如在图形学中，判断一个点是否在指定的区域内。
+ * Precision(精度):
+ * 表示一个量的精确程度或准确度，通常用于描述一个测量或计算结果的可靠程度。在计算机中，Precision通常用于表示浮点数的位数或有效数字位数，例如单精度浮点数的精度为7位，双精度浮点数的精度为15位。
+ * Error(误差):
+ * 表示测量或计算结果与真实值之间的差异或偏差，通常用于描述一个测量或计算的准确度。在计算机中，Error通常用于表示程序运行时出现的错误或异常，例如除零错误、内存溢出等。
  */
 
 double dist(POINT p1, POINT p2) {
@@ -173,7 +178,7 @@ std::vector<POINT> arc2segments(double cx, double cy, double r, double startAngl
     double             y            = r * sin(startAngle);
 
     for (int i = 0; i < numSegments; i++) {
-        points.push_back(POINT(cx + x, cy + y));
+        points.emplace_back(cx + x, cy + y);
         double tx = -y;
         double ty = x;
         x += tx * tan_factor;
@@ -181,25 +186,20 @@ std::vector<POINT> arc2segments(double cx, double cy, double r, double startAngl
         x *= radialFactor;
         y *= radialFactor;
     }
-    points.push_back(POINT(cx + r * cos(endAngle), cy + r * sin(endAngle)));
+    points.emplace_back(cx + r * cos(endAngle), cy + r * sin(endAngle));
     return points;
 }
 
-POINT::POINT(double a, double b) {
-    x = a;
-    y = b;
-}
-
 POINT POINT::operator+(const POINT& p) const {
-    return POINT(x + p.x, y + p.y);
+    return { x + p.x, y + p.y };
 }
 
 POINT POINT::operator-(const POINT& p) const {
-    return POINT(x - p.x, y - p.y);
+    return { x - p.x, y - p.y };
 }
 
 POINT POINT::operator*(double d) const {
-    return POINT(x * d, y * d);
+    return { x * d, y * d };
 }
 
 SEGMENT::SEGMENT(POINT a, POINT b) {
@@ -222,5 +222,4 @@ ARC::ARC(POINT c, double r, POINT st, POINT et, double sta, double spa, DIRECTIO
     this->spa = spa;
     this->d   = d;
 }
-
 }  // namespace R_GEOMETRY

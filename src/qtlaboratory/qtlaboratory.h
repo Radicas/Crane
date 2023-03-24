@@ -31,6 +31,11 @@ public:
 
 private slots:
     /**
+     *
+     */
+    void triangleBtnClicked();
+
+    /**
      * @brief 矩形
      */
     void rectBtnClicked();
