@@ -2,12 +2,9 @@
 Shape::Shape()
     : m_path()
     , m_polygon_with_holes()
-    , m_path_elements()
     , m_vertex() {}
 
 Shape::~Shape() = default;
-
-void Shape::addSegment(PathElement segment) {}
 
 void Shape::addHole(const Shape& hole) {}
 
@@ -32,8 +29,11 @@ const QPainterPath& Shape::path() const {
 }
 
 R_GEOMETRY::Polygon& Shape::getOuter() {
-    return m_polygon_with_holes.outer();
+    return const_cast<R_GEOMETRY::Polygon&>(m_polygon_with_holes.outer());
 }
 std::vector<R_GEOMETRY::Polygon>& Shape::getInner() {
-    return m_polygon_with_holes.inner();
+    return const_cast<std::vector<R_GEOMETRY::Polygon>&>(m_polygon_with_holes.inner());
+}
+const R_GEOMETRY::PolygonWithHoles& Shape::getPolygonWithHoles() const {
+    return m_polygon_with_holes;
 }

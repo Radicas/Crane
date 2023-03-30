@@ -9,33 +9,7 @@
 
 namespace R_GEOMETRY {
 
-/**
- *
- */
 typedef std::vector<POINT> Polygon;
-// class Polygon {
-// private:
-//     std::vector<POINT> m_points;
-//
-// public:
-//     Polygon();
-//
-//     Polygon(std::vector<POINT> points);
-//
-//     Polygon(std::vector<POINT>& points);
-//
-//     inline Polygon& operator<<(const POINT& p);
-//
-//     POINT& operator[](int index);
-//
-//     Polygon& operator=(const Polygon& poly);
-//
-//     const POINT& first() const;
-//
-//     const POINT& at(int index) const;
-//
-//     int size() const;
-// };
 
 class PolygonWithHoles {
 public:
@@ -43,13 +17,15 @@ public:
 
     ~PolygonWithHoles();
 
+    void updatePos(const POINT& delta);
+
     void setOuter(const Polygon& aOuter);
 
     void setInner(const std::vector<Polygon>& aInner);
 
-    Polygon& outer();
+    const Polygon& outer() const;
 
-    std::vector<Polygon>& inner();
+    const std::vector<Polygon>& inner() const;
 
 private:
     Polygon              m_outer;  // 外轮廓，顺时针放置

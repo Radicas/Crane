@@ -19,9 +19,9 @@ namespace TRAITS {}
 namespace R_GEOMETRY {
 
 /* 常用的常量定义 */
-const double INF  = 1E200;       // infinity 无穷大
-const double EP   = 1E-10;       // Epsilon 很小的值，浮点数误差小于它则认为是相等
-const int    MAXV = 300;         // max value 最大范围
+const double INF  = 1E200;       // Infinity 无穷大
+const double EP   = 1E-10;       // Epsilon 零值容差，浮点数误差小于它则认为是相等
+const int    MAXV = 300;         // Max Value 最大范围
 const double PI   = 3.14159265;  // 圆周率
 
 /**
@@ -63,6 +63,24 @@ struct LINE {
     double b;
     double c;
     explicit LINE(double d1 = 1, double d2 = -1, double d3 = 0);
+};
+
+/**
+ * @brief 盒子
+ *
+ */
+struct BOX {
+    POINT top_left;
+    POINT bottom_right;
+
+    BOX(const POINT& tl, const POINT& br)
+        : top_left(tl)
+        , bottom_right(br) {}
+
+    double width() const { return bottom_right.x - top_left.x; }  // 宽度
+    double height() const { return bottom_right.y - top_left.y; } // 高度
+    double area() const { return width() * height(); }            // 面积
+    double perimeter() const { return 2 * (width() + height()); } // 周长
 };
 
 /**

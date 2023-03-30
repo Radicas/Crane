@@ -13,6 +13,8 @@ LabScene::LabScene(QObject* parent)
     , m_curr_item(nullptr)
     , m_is_moving(false)
     , m_item_offset()
+    , m_press_pos()
+    , m_release_pos()
     , m_marked() {
     setSceneRect(-5000, -5000, 10000, 10000);
     setSelectionArea(QPainterPath(), Qt::IntersectsItemShape);
@@ -23,7 +25,10 @@ LabScene::~LabScene() {
 }
 
 void LabScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-    m_curr_item = itemAt(event->scenePos(), QTransform());
+    m_press_pos  = event->scenePos();
+    m_release_pos = m_press_pos;
+    auto* g_item = itemAt(event->scenePos(), QTransform());
+    m_curr_item  = dynamic_cast<GeometryItem*>(g_item);
     if (m_curr_item && !m_select_items.contains(m_curr_item)) {
         m_curr_item->setSelected(true);
         m_select_items.append(m_curr_item);
@@ -43,11 +48,12 @@ void LabScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
 }
 
 void LabScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+    m_release_pos = event->scenePos();
     if (m_curr_item) {
         if (event->scenePos() != m_marked) {
             dynamic_cast<GeometryItem*>(m_curr_item)->setColor(Crane::COLOR::BLUE.rgba());
         }
-        m_curr_item->update();
+        m_curr_item->updatePos(m_release_pos - m_press_pos);
         m_curr_item = nullptr;
     }
     else {

@@ -7,6 +7,7 @@
 #include <QPainterPath>
 #include <QPolygonF>
 
+/* region GeometryItem */
 GeometryItem::GeometryItem(QGraphicsItem* parent)
     : QGraphicsItem(parent)
     , m_selected_color(Crane::COLOR::BLUE.rgba()) {}
@@ -29,41 +30,37 @@ QRectF GeometryItem::boundingRect() const {
     return m_path.boundingRect();
 }
 
+void GeometryItem::updatePos(QPointF delta) {
+    m_polygon_with_holes.updatePos(POINT(delta.x(), delta.y()));
+    QGraphicsItem::update();
+}
+
+QPainterPath GeometryItem::shape() const {
+    return m_path;
+}
+/* endregion */
+
+/* region Rectangle */
 RectangleItem::RectangleItem(QGraphicsItem* parent)
     : GeometryItem(parent) {
-    R_GEOMETRY::Polygon outer, inner1;
+    R_GEOMETRY::Polygon outer;
     outer.emplace_back(-100, 100);
     outer.emplace_back(100, 100);
     outer.emplace_back(100, -100);
     outer.emplace_back(-100, -100);
     outer.emplace_back(-100, 100);
-
-    inner1.emplace_back(-50, 50);
-    inner1.emplace_back(50, 50);
-    inner1.emplace_back(50, -50);
-    inner1.emplace_back(-50, -50);
-    inner1.emplace_back(-50, 50);
-
     m_polygon_with_holes.setOuter(outer);
-    m_polygon_with_holes.setInner({ inner1 });
-
-    // TODO: add to polygon_with_holes
-    QPainterPath path;
-    path.moveTo(QPointF(outer[0].x, outer[0].y));
+    m_path.moveTo(QPointF(outer[0].x, outer[0].y));
     for (auto& i : outer) {
-        path.lineTo(QPointF(i.x, i.y));
+        m_path.lineTo(QPointF(i.x, i.y));
     }
-    path.moveTo(QPointF(inner1[0].x, inner1[0].y));
-    for (auto& i : inner1) {
-        path.lineTo(i.x, i.y);
-    }
-    path.closeSubpath();
-    m_path = path;
-    qDebug() << "rect path: " << m_path;
+    m_path.closeSubpath();
 }
 
 RectangleItem::~RectangleItem() = default;
+/* endregion */
 
+/* region CircleItem */
 CircleItem::CircleItem(QGraphicsItem* parent)
     : GeometryItem(parent) {
     auto outer = R_GEOMETRY::arc2segments(0, 0, 50, 0, 360 * R_GEOMETRY::PI / 180, 360);
@@ -85,7 +82,9 @@ CircleItem::CircleItem(QGraphicsItem* parent)
 }
 
 CircleItem::~CircleItem() = default;
+/* endregion */
 
+/* region CurvePolygonItem */
 CurvePolygonItem::CurvePolygonItem(QGraphicsItem* parent)
     : GeometryItem(parent) {
     // 将路径移动到矩形的左上角
@@ -100,14 +99,23 @@ CurvePolygonItem::CurvePolygonItem(QGraphicsItem* parent)
     m_path.cubicTo(25, 5, 15, 5, 10, 10);
     // 将路径闭合
     m_path.closeSubpath();
-    qDebug() << "CurvePolygon" << m_path;
 }
 
 CurvePolygonItem::~CurvePolygonItem() = default;
+/* endregion */
 
-PolygonItem::PolygonItem(const QPolygonF& polygon, QGraphicsItem* parent)
+/* region PolygonItem */
+PolygonItem::PolygonItem(R_GEOMETRY::PolygonWithHoles polygon, QGraphicsItem* parent)
     : GeometryItem(parent) {
-    m_path.addPolygon(polygon);
-    qDebug() << "Polygon" << m_path;
+    m_polygon_with_holes = polygon;
+    if (!polygon.outer().empty()) {
+        auto p0 = polygon.outer()[0];
+        m_path.moveTo(p0.x, p0.y);
+        for (auto p : polygon.outer()) {
+            m_path.lineTo(p.x, p.y);
+        }
+        m_path.closeSubpath();
+    }
 }
 PolygonItem::~PolygonItem() {}
+/* endregion */

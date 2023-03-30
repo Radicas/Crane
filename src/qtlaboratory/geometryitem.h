@@ -1,7 +1,9 @@
 #ifndef REDEDA_GEOMETRYITEM_H
 #define REDEDA_GEOMETRYITEM_H
 
+#include "algorithm/geometry/polygon.h"
 #include "shape.h"
+
 #include <QGraphicsItem>
 
 class GeometryItem : public QGraphicsItem, public Shape {
@@ -12,7 +14,11 @@ public:
 
     QRectF boundingRect() const override;
 
+    QPainterPath shape() const override;
+
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+
+    void updatePos(QPointF delta);
 
     void setColor(unsigned int color);
 
@@ -39,7 +45,7 @@ public:
 
 class PolygonItem : public GeometryItem {
 public:
-    explicit PolygonItem(const QPolygonF& polygon, QGraphicsItem* parent = nullptr);
+    explicit PolygonItem(R_GEOMETRY::PolygonWithHoles polygon, QGraphicsItem* parent = nullptr);
 
     ~PolygonItem() override;
 };

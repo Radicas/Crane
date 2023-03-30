@@ -2,14 +2,11 @@
 #include "geometryitem.h"
 #include "labscene.h"
 #include "labview.h"
+#include "shapehelper.h"
 #include "ui_qtlaboratory.h"
 
 #include <QDebug>
 #include <QTableView>
-#include <boost/geometry/geometries/point_xy.hpp>
-#include <boost/geometry/geometries/polygon.hpp>
-#include <boost/geometry/geometry.hpp>
-#include <boost/polygon/polygon.hpp>
 #include <vector>
 
 /* region Constructors / Destructor */
@@ -79,9 +76,7 @@ void QtLaboratory::triangleBtnClicked() {
     double b = bg::area(poly2);  // 面积
     std::cout << "poly2 area: " << b << std::endl;
 
-    polygon_t result{};
     bg::union_(poly1, poly2, result);
-    bg::intersection(poly1, poly2, result);
 }
 
 void QtLaboratory::rectBtnClicked() {
@@ -109,73 +104,36 @@ void QtLaboratory::intersectBtnClicked() {}
 void QtLaboratory::unionBtnClicked() {
     namespace bg = boost::geometry;
     namespace bp = boost::polygon;
+    typedef bg::model::d2::point_xy<double> point_t;
+    typedef bg::model::polygon<point_t>     polygon_t;
 
-    auto& items = m_scene->getSelectedItems();
+    polygon_t              poly1, poly2;  // boost polygon，用于布尔运算
+    std::vector<polygon_t> result;
+
+    auto& items = m_scene->getSelectedItems();  // 获取选中的对象
+
     if (items.size() >= 2) {
-        auto* item1  = items.at(0);
-        auto& outer1 = dynamic_cast<Shape*>(item1)->getOuter();
-        std::cout << "rect: " << std::endl;
-        for (auto p : outer1) {
-            std::cout << "outline: "
-                      << "(" << p.x << "," << p.y << ")" << std::endl;
-        }
-        auto& polys_inner = dynamic_cast<Shape*>(item1)->getInner();
-        for (const auto& inner : polys_inner) {
-            for (const auto& p : inner) {
-                std::cout << "inner: "
-                          << "(" << p.x << "," << p.y << ")" << std::endl;
-            }
-        }
+        auto* item1 = items.at(0);
+        auto* item2 = items.at(1);
 
-        auto* item2  = items.at(1);
-        auto& outer2 = dynamic_cast<Shape*>(item2)->getOuter();
-        std::cout << "circle: " << std::endl;
-        for (auto p : outer2) {
-            std::cout << "outline: "
-                      << "(" << p.x << "," << p.y << ")" << std::endl;
+        poly1 = Crane::toBoostPolygon(dynamic_cast<Shape*>(item1)->getPolygonWithHoles());
+        poly2 = Crane::toBoostPolygon(dynamic_cast<Shape*>(item2)->getPolygonWithHoles());
+
+        bg::correct(poly1);
+        bg::correct(poly2);
+        bg::union_(poly1, poly2, result);
+
+        for (const auto& res : result) {
+            auto  r_poly = Crane::fromBoostPolygon(res);
+            auto* item   = new PolygonItem(r_poly);
+            m_scene->addItem(item);
         }
     }
 }
 
 void QtLaboratory::subtractBtnClicked() {}
 
-void QtLaboratory::pathToPolygonBtnClicked() {
-//    QVector<QPointF>      points;
-//    QPainterPath::Element element;
-//    auto&                 items = m_scene->getSelectedItems();
-//    if (!items.empty()) {
-//        auto path = items[0]->shape();
-//        for (int i = 0; i < path.elementCount(); ++i) {
-//            element = path.elementAt(i);
-//            if (element.type == QPainterPath::ArcToElement) {
-//                qreal x1, y1, x2, y2;
-//                qreal rx             = element.rect.width() / 2.0;
-//                qreal ry             = element.rect.height() / 2.0;
-//                qreal angle1         = -element.angle * M_PI / 180.0;
-//                qreal angle2         = -(element.angle + element.span) * M_PI / 180.0;
-//                x1                   = element.rect.center().x() + rx * qCos(angle1);
-//                y1                   = element.rect.center().y() + ry * qSin(angle1);
-//                x2                   = element.rect.center().x() + rx * qCos(angle2);
-//                y2                   = element.rect.center().y() + ry * qSin(angle2);
-//                int   numSegments    = qAbs(element.span) / 5;
-//                qreal angleIncrement = element.span / qreal(numSegments);
-//                qreal currentAngle   = angle1 + angleIncrement;
-//                for (int j = 0; j < numSegments; ++j) {
-//                    qreal x = element.rect.center().x() + rx * qCos(currentAngle);
-//                    qreal y = element.rect.center().y() + ry * qSin(currentAngle);
-//                    points.append(QPointF(x, y));
-//                    currentAngle += angleIncrement;
-//                }
-//            }
-//            else if (element.type == QPainterPath::LineToElement) {
-//                points.append(element.p);
-//            }
-//        }
-//    }
-//    auto* polygonItem = new Polygon(outline);
-//    qDebug() << "points" << points;
-//    m_scene->addItem(polygonItem);
-}
+void QtLaboratory::pathToPolygonBtnClicked() {}
 
 void QtLaboratory::clearBtnClicked() {
     for (auto* i : m_scene->items()) {
