@@ -33,5 +33,11 @@ void PolygonWithHoles::updatePos(const POINT& delta) {
         p.x += delta.x;
         p.y += delta.y;
     }
+    for (auto& inners : m_inner) {
+        for (auto& inner : inners) {
+            inner.x += delta.x;
+            inner.y += delta.y;
+        }
+    }
 }
 };  // namespace R_GEOMETRY

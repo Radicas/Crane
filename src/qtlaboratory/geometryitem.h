@@ -25,6 +25,10 @@ public:
 private:
     /* data */
     unsigned int m_selected_color;
+
+protected:
+    /* methods */
+    void initPathByPolygonWithHoles(const R_GEOMETRY::PolygonWithHoles& poly);
 };
 
 class RectangleItem : public GeometryItem {

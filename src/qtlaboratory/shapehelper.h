@@ -11,6 +11,7 @@
 #include <boost/geometry/geometries/polygon.hpp>
 #include <boost/geometry/geometry.hpp>
 #include <boost/polygon/polygon.hpp>
+#include <boost/foreach.hpp>
 
 namespace Crane {
 
