@@ -37,6 +37,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} PROJECT_SOURCES)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/pycheck PROJECT_SOURCES)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/qtlaboratory PROJECT_SOURCES)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/cranegpt PROJECT_SOURCES)
 
 # 将头文件路径和链接库路径添加到编译选项中
 include_directories(${Boost_INCLUDE_DIRS})

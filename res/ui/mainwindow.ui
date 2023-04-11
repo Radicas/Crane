@@ -18,16 +18,23 @@
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="QPushButton" name="craneGPTBtn">
+        <property name="text">
+         <string>Crane GPT</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="pyEnvBtn">
         <property name="text">
-         <string>python env</string>
+         <string>Python Env</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="qtLabBtn">
         <property name="text">
-         <string>Qt laboratory</string>
+         <string>Qt Laboratory</string>
         </property>
        </widget>
       </item>

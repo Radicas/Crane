@@ -45,7 +45,7 @@ struct POINT {
 typedef POINT VECTOR2D;
 
 /**
- * @brief
+ * @brief 线段
  *
  */
 struct SEGMENT {
@@ -55,7 +55,7 @@ struct SEGMENT {
 };
 
 /**
- * @brief
+ * @brief 直线
  *
  */
 struct LINE {

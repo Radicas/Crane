@@ -20,24 +20,32 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 class PyEnvDialog;
-class MainWindow: public QMainWindow {
-	Q_OBJECT
+class MainWindow : public QMainWindow {
+    Q_OBJECT
 
 public:
-	/* region Constructors / Destructor */
-	MainWindow(QWidget* parent = nullptr);
-	~MainWindow();
-	/* endregion */
+    /* region Constructors / Destructor */
+    explicit MainWindow(QWidget* parent = nullptr);
+
+    ~MainWindow() override;
+    /* endregion */
 
 private slots:
-	void initComponents();
-	void pyEnvBtnClicked();
-	void aboutTriggered();
-	void exitTriggered();
-	void qtLabBtnClicked();
+
+    void initComponents();
+
+    static void pyEnvBtnClicked();
+
+    void aboutTriggered();
+
+    void exitTriggered();
+
+    void qtLabBtnClicked();
+
+    static void craneGPTBtnClicked();
 
 private:
-	/* data */
-	std::unique_ptr< Ui::Crane > ui;
+    /* data */
+    std::unique_ptr<Ui::Crane> ui;
 };
 #endif  // MAINWINDOW_H
