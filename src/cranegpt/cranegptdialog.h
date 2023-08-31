@@ -1,12 +1,12 @@
 /**
  * @file cranegptdialog.h
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-04-11
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 #ifndef CRANE_CRANEGPTDIALOG_H
 #define CRANE_CRANEGPTDIALOG_H
@@ -35,10 +35,10 @@ private slots:
     void commitClicked();
 
 private:
-    std::unique_ptr<QTextEdit>      m_answer_edit;
-    std::unique_ptr<QLineEdit>      m_commit_edit;
-    std::unique_ptr<QPushButton>    m_commit_btn;
+    std::unique_ptr<QTextEdit> m_answer_edit;
+    std::unique_ptr<QLineEdit> m_commit_edit;
+    std::unique_ptr<QPushButton> m_commit_btn;
     std::shared_ptr<MessageHandler> m_message_handler;
 };
 
-#endif  // CRANE_CRANEGPTDIALOG_H
+#endif // CRANE_CRANEGPTDIALOG_H

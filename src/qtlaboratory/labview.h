@@ -21,9 +21,9 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
 
     void mouseReleaseEvent(QMouseEvent* event) override;
-    
+
 private:
-    QPoint lastMousePos;  // 上一个鼠标位置
+    QPoint lastMousePos; // 上一个鼠标位置
 };
 
-#endif  // CRANE_LABVIEW_H
+#endif // CRANE_LABVIEW_H

@@ -1,12 +1,12 @@
 /**
  * @file messagehandler.h
  * @author Radica
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-04-11
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 #ifndef CRANE_MESSAGEHANDLER_H
 #define CRANE_MESSAGEHANDLER_H
@@ -16,7 +16,6 @@ public:
     MessageHandler();
 
     ~MessageHandler();
-
 };
 
-#endif  // CRANE_MESSAGEHANDLER_H
+#endif // CRANE_MESSAGEHANDLER_H

@@ -8,15 +8,17 @@
 #include <QPolygonF>
 
 /* region GeometryItem */
-GeometryItem::GeometryItem(QGraphicsItem* parent)
-    : QGraphicsItem(parent)
-    , m_selected_color(Crane::COLOR::BLUE.rgba()) {}
+GeometryItem::GeometryItem(QGraphicsItem* parent) :
+    QGraphicsItem(parent),
+    m_selected_color(Crane::COLOR::BLUE.rgba()) {
+}
 
 GeometryItem::~GeometryItem() = default;
 
 void GeometryItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-    painter->setBrush(QColor::fromRgba(m_selected_color));
-    QPen pen(Crane::COLOR::RED);
+    // painter->setBrush(QColor::fromRgba(m_selected_color));
+    painter->setBrush(Qt::NoBrush);
+    QPen pen(Crane::COLOR::BLUE);
     pen.setWidth(0);
     painter->setPen(pen);
     painter->drawPath(m_path);
@@ -39,8 +41,8 @@ QPainterPath GeometryItem::shape() const {
     return m_path;
 }
 
-void GeometryItem::initPathByPolygonWithHoles(const R_GEOMETRY::PolygonWithHoles& poly) {
-    auto& outer  = poly.outer();
+void GeometryItem::initPathByPolygonWithHoles(const geometry::PolygonWithHoles& poly) {
+    auto& outer = poly.outer();
     auto& inners = poly.inner();
     if (outer.empty()) {
         std::cerr << "initPathByPolygonWithHoles outer is empty" << std::endl;
@@ -65,9 +67,9 @@ void GeometryItem::initPathByPolygonWithHoles(const R_GEOMETRY::PolygonWithHoles
 /* endregion */
 
 /* region Rectangle */
-RectangleItem::RectangleItem(QGraphicsItem* parent)
-    : GeometryItem(parent) {
-    R_GEOMETRY::Polygon outer_pts, inner_pts;
+RectangleItem::RectangleItem(QGraphicsItem* parent) :
+    GeometryItem(parent) {
+    geometry::POLYGON outer_pts, inner_pts;
     outer_pts.emplace_back(0, 100);
     outer_pts.emplace_back(100, 100);
     outer_pts.emplace_back(100, 0);
@@ -81,7 +83,7 @@ RectangleItem::RectangleItem(QGraphicsItem* parent)
     inner_pts.emplace_back(20, 20);
 
     m_polygon_with_holes.setOuter(outer_pts);
-    m_polygon_with_holes.setInner({ inner_pts });
+    m_polygon_with_holes.setInner({inner_pts});
     initPathByPolygonWithHoles(m_polygon_with_holes);
 }
 
@@ -89,9 +91,9 @@ RectangleItem::~RectangleItem() = default;
 /* endregion */
 
 /* region CircleItem */
-CircleItem::CircleItem(QGraphicsItem* parent)
-    : GeometryItem(parent) {
-    auto outer = R_GEOMETRY::arc2segments(0, 0, 50, 0, 360 * R_GEOMETRY::PI / 180, 360);
+CircleItem::CircleItem(QGraphicsItem* parent) :
+    GeometryItem(parent) {
+    auto outer = geometry::arc2points<geometry::POINT>(0.0, 0.0, 50.0, 0.0, 2.0 * M_PI, 180);
     m_polygon_with_holes.setOuter(outer);
     m_polygon_with_holes.setInner({});
     initPathByPolygonWithHoles(m_polygon_with_holes);
@@ -101,8 +103,8 @@ CircleItem::~CircleItem() = default;
 /* endregion */
 
 /* region CurvePolygonItem */
-CurvePolygonItem::CurvePolygonItem(QGraphicsItem* parent)
-    : GeometryItem(parent) {
+CurvePolygonItem::CurvePolygonItem(QGraphicsItem* parent) :
+    GeometryItem(parent) {
     // 将路径移动到矩形的左上角
     m_path.moveTo(10, 10);
     // 添加左侧贝塞尔曲线
@@ -121,8 +123,8 @@ CurvePolygonItem::~CurvePolygonItem() = default;
 /* endregion */
 
 /* region PolygonItem */
-PolygonItem::PolygonItem(R_GEOMETRY::PolygonWithHoles polygon, QGraphicsItem* parent)
-    : GeometryItem(parent) {
+PolygonItem::PolygonItem(const geometry::PolygonWithHoles& polygon, QGraphicsItem* parent) :
+    GeometryItem(parent) {
     m_polygon_with_holes = polygon;
     if (!polygon.outer().empty()) {
         auto p0 = polygon.outer()[0];
@@ -142,5 +144,6 @@ PolygonItem::PolygonItem(R_GEOMETRY::PolygonWithHoles polygon, QGraphicsItem* pa
     }
     m_path.closeSubpath();
 }
-PolygonItem::~PolygonItem() {}
+
+PolygonItem::~PolygonItem() = default;
 /* endregion */

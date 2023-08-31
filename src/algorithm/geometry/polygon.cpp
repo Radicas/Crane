@@ -3,29 +3,36 @@
 //
 
 #include "polygon.h"
-#include "iostream"
 
-namespace R_GEOMETRY {
+#include <utility>
 
-PolygonWithHoles::PolygonWithHoles()
-    : m_outer()
-    , m_inner() {}
+namespace geometry {
+
+PolygonWithHoles::PolygonWithHoles() :
+    m_outer(),
+    m_inner() {
+}
+
+PolygonWithHoles::PolygonWithHoles(geometry::POLYGON outer, std::vector<geometry::POLYGON> inners) :
+    m_outer(std::move(outer)),
+    m_inner(std::move(inners)) {
+}
 
 PolygonWithHoles::~PolygonWithHoles() = default;
 
-const Polygon& PolygonWithHoles::outer() const {
+const geometry::POLYGON& PolygonWithHoles::outer() const {
     return m_outer;
 }
 
-const std::vector<Polygon>& PolygonWithHoles::inner() const {
+const std::vector<geometry::POLYGON>& PolygonWithHoles::inner() const {
     return m_inner;
 }
 
-void PolygonWithHoles::setOuter(const Polygon& aOuter) {
+void PolygonWithHoles::setOuter(const geometry::POLYGON& aOuter) {
     m_outer = aOuter;
 }
 
-void PolygonWithHoles::setInner(const std::vector<Polygon>& aInner) {
+void PolygonWithHoles::setInner(const std::vector<geometry::POLYGON>& aInner) {
     m_inner = aInner;
 }
 void PolygonWithHoles::updatePos(const POINT& delta) {
@@ -40,4 +47,4 @@ void PolygonWithHoles::updatePos(const POINT& delta) {
         }
     }
 }
-};  // namespace R_GEOMETRY
+}; // namespace geometry

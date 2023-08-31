@@ -8,20 +8,20 @@
 namespace SUtil {
 const int LINE_LENGTH = 1024;
 
-std::string execCmd( const char* cmd, const char* mode ) {
+std::string execCmd(const char* cmd, const char* mode) {
     std::string text;
-    FILE*       f = popen( cmd, mode );
-    char        line[ LINE_LENGTH ];
-    if ( !f ) {
-        throw( "failed to open pipe file" );
+    FILE* f = popen(cmd, mode);
+    char line[LINE_LENGTH];
+    if (!f) {
+        throw("failed to open pipe file");
     }
-    while ( fgets( line, LINE_LENGTH, f ) ) {
-        text.append( line );
+    while (fgets(line, LINE_LENGTH, f)) {
+        text.append(line);
     }
-    pclose( f );
+    pclose(f);
     f = nullptr;
-    return std::move( text );
+    return std::move(text);
 }
-}  // namespace SUtil
+} // namespace SUtil
 
-#endif  // REDEDA_UTILS_H
+#endif // REDEDA_UTILS_H

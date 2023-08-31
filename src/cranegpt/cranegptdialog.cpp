@@ -6,12 +6,12 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 
-CraneGPTDialog::CraneGPTDialog(QWidget* parent)
-    : QDialog(parent)
-    , m_answer_edit(new QTextEdit())
-    , m_commit_edit(new QLineEdit())
-    , m_commit_btn(new QPushButton(tr("commit")))
-    , m_message_handler(new MessageHandler()) {
+CraneGPTDialog::CraneGPTDialog(QWidget* parent) :
+    QDialog(parent),
+    m_answer_edit(new QTextEdit()),
+    m_commit_edit(new QLineEdit()),
+    m_commit_btn(new QPushButton(tr("commit"))),
+    m_message_handler(new MessageHandler()) {
     setUp();
 }
 

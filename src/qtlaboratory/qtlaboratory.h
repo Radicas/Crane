@@ -17,6 +17,10 @@ QT_BEGIN_NAMESPACE
 class QGraphicsScene;
 QT_END_NAMESPACE
 
+namespace geometry {
+class PolygonWithHoles;
+}
+
 namespace Ui {
 class QtLabDlg;
 }
@@ -24,8 +28,9 @@ class QtLabDlg;
 class LabScene;
 class QtLaboratory : public QDialog {
     Q_OBJECT
+
 public:
-    explicit QtLaboratory( QWidget* parent = nullptr );
+    explicit QtLaboratory(QWidget* parent = nullptr);
 
     ~QtLaboratory() override;
 
@@ -74,20 +79,24 @@ private slots:
      * @brief 路径转多边形绘制
      */
     void pathToPolygonBtnClicked();
-    
+
     /**
      * @brief 清空屏幕
      */
     void clearBtnClicked();
+
+    void expandBtnClicked();
 
 private:
     void initScene();
 
     void initConnects();
 
+    void addPolygon(const geometry::PolygonWithHoles& pwh);
+
 private:
-    std::unique_ptr<Ui::QtLabDlg> m_ui;    ///< ui
-    std::unique_ptr<LabScene>     m_scene; ///< 场景
+    std::unique_ptr<Ui::QtLabDlg> m_ui; ///< ui
+    std::unique_ptr<LabScene> m_scene;  ///< 场景
 };
 
-#endif  // REDEDA_QTLABORATORY_H
+#endif // REDEDA_QTLABORATORY_H

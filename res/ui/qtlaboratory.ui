@@ -105,6 +105,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="expandBtn">
+       <property name="text">
+        <string>Expand</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="clearBtn">
        <property name="text">
         <string>Clear Screen</string>

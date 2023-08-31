@@ -1,7 +1,6 @@
 #ifndef REDEDA_GEOMETRYITEM_H
 #define REDEDA_GEOMETRYITEM_H
 
-#include "algorithm/geometry/polygon.h"
 #include "shape.h"
 
 #include <QGraphicsItem>
@@ -28,12 +27,13 @@ private:
 
 protected:
     /* methods */
-    void initPathByPolygonWithHoles(const R_GEOMETRY::PolygonWithHoles& poly);
+    void initPathByPolygonWithHoles(const geometry::PolygonWithHoles& poly);
 };
 
 class RectangleItem : public GeometryItem {
 private:
     /* data */
+
 public:
     explicit RectangleItem(QGraphicsItem* parent = nullptr);
 
@@ -49,7 +49,7 @@ public:
 
 class PolygonItem : public GeometryItem {
 public:
-    explicit PolygonItem(R_GEOMETRY::PolygonWithHoles polygon, QGraphicsItem* parent = nullptr);
+    explicit PolygonItem(const geometry::PolygonWithHoles& polygon, QGraphicsItem* parent = nullptr);
 
     ~PolygonItem() override;
 };
@@ -61,4 +61,4 @@ public:
     ~CurvePolygonItem() override;
 };
 
-#endif  // REDEDA_GEOMETRYITEM_H
+#endif // REDEDA_GEOMETRYITEM_H

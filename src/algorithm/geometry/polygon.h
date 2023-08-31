@@ -5,33 +5,33 @@
 #ifndef CRANE_POLYGON_H
 #define CRANE_POLYGON_H
 
-#include "geometry_algo.h"
+#include "geometry_algo.hpp"
 
-namespace R_GEOMETRY {
-
-typedef std::vector<POINT> Polygon;
+namespace geometry {
 
 class PolygonWithHoles {
 public:
     PolygonWithHoles();
 
+    PolygonWithHoles(geometry::POLYGON outer, std::vector<geometry::POLYGON> inners);
+
     ~PolygonWithHoles();
 
     void updatePos(const POINT& delta);
 
-    void setOuter(const Polygon& aOuter);
+    void setOuter(const geometry::POLYGON& aOuter);
 
-    void setInner(const std::vector<Polygon>& aInner);
+    void setInner(const std::vector<geometry::POLYGON>& aInner);
 
-    const Polygon& outer() const;
+    [[nodiscard]] const geometry::POLYGON& outer() const;
 
-    const std::vector<Polygon>& inner() const;
+    [[nodiscard]] const std::vector<geometry::POLYGON>& inner() const;
 
 private:
-    Polygon              m_outer;  // 外轮廓，顺时针放置
-    std::vector<Polygon> m_inner;  // 孔洞轮廓，逆时针放置
+    geometry::POLYGON m_outer;              // 外轮廓，顺时针放置
+    std::vector<geometry::POLYGON> m_inner; // 孔洞轮廓，逆时针放置
 };
 
-}  // namespace R_GEOMETRY
+} // namespace geometry
 
-#endif  // CRANE_POLYGON_H
+#endif // CRANE_POLYGON_H

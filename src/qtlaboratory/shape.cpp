@@ -1,12 +1,14 @@
 #include "shape.h"
-Shape::Shape()
-    : m_path()
-    , m_polygon_with_holes()
-    , m_vertex() {}
+Shape::Shape() :
+    m_path(),
+    m_polygon_with_holes(),
+    m_vertex() {
+}
 
 Shape::~Shape() = default;
 
-void Shape::addHole(const Shape& hole) {}
+void Shape::addHole(const Shape& hole) {
+}
 
 bool Shape::contains(const POINT& point) const {
     return false;
@@ -28,12 +30,12 @@ const QPainterPath& Shape::path() const {
     return m_path;
 }
 
-R_GEOMETRY::Polygon& Shape::getOuter() {
-    return const_cast<R_GEOMETRY::Polygon&>(m_polygon_with_holes.outer());
+geometry::POLYGON& Shape::getOuter() {
+    return const_cast<geometry::POLYGON&>(m_polygon_with_holes.outer());
 }
-std::vector<R_GEOMETRY::Polygon>& Shape::getInner() {
-    return const_cast<std::vector<R_GEOMETRY::Polygon>&>(m_polygon_with_holes.inner());
+std::vector<geometry::POLYGON>& Shape::getInner() {
+    return const_cast<std::vector<geometry::POLYGON>&>(m_polygon_with_holes.inner());
 }
-const R_GEOMETRY::PolygonWithHoles& Shape::getPolygonWithHoles() const {
+const geometry::PolygonWithHoles& Shape::getPolygonWithHoles() const {
     return m_polygon_with_holes;
 }

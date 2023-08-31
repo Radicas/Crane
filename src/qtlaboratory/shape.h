@@ -8,12 +8,12 @@
  * @copyright Copyright (c) 2023
  *
  */
-#include "algorithm/geometry/geometry_algo.h"
+#include "algorithm/geometry/geometry_algo.hpp"
 #include "algorithm/geometry/polygon.h"
 #include <QPainterPath>
 #include <vector>
 
-typedef R_GEOMETRY::POINT POINT;
+typedef geometry::POINT POINT;
 
 class Shape {
 public:
@@ -33,16 +33,16 @@ public:
 
     const QPainterPath& path() const;
 
-    const R_GEOMETRY::PolygonWithHoles& getPolygonWithHoles() const;
+    const geometry::PolygonWithHoles& getPolygonWithHoles() const;
 
-    R_GEOMETRY::Polygon& getOuter();
+    geometry::POLYGON& getOuter();
 
-    std::vector<R_GEOMETRY::Polygon>& getInner();
+    std::vector<geometry::POLYGON>& getInner();
 
 protected:
-    QPainterPath                 m_path;                // 绘制路径
-    R_GEOMETRY::PolygonWithHoles m_polygon_with_holes;  // 带孔多边形
-    std::vector<QPolygonF>       m_vertex;              // 顶点
+    QPainterPath m_path;                             // 绘制路径
+    geometry::PolygonWithHoles m_polygon_with_holes; // 带孔多边形
+    std::vector<QPolygonF> m_vertex;                 // 顶点
 
 private:
 };

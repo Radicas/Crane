@@ -16,7 +16,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-	class Crane;
+class Crane;
 }
 QT_END_NAMESPACE
 class PyEnvDialog;
@@ -48,4 +48,4 @@ private:
     /* data */
     std::unique_ptr<Ui::Crane> ui;
 };
-#endif  // MAINWINDOW_H
+#endif // MAINWINDOW_H
