@@ -69,7 +69,7 @@ void GeometryItem::initPathByPolygonWithHoles(const geometry::PolygonWithHoles& 
 /* region Rectangle */
 RectangleItem::RectangleItem(QGraphicsItem* parent) :
     GeometryItem(parent) {
-    geometry::POLYGON outer_pts, inner_pts;
+    geometry::Polygon outer_pts, inner_pts;
     outer_pts.emplace_back(0, 100);
     outer_pts.emplace_back(100, 100);
     outer_pts.emplace_back(100, 0);

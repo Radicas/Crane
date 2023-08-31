@@ -23,7 +23,6 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
 # 子目录
 add_subdirectory(src)
 
-
 # 测试代码
-#add_subdirectory(test)
-#add_subdirectory(third_party/gtest)
+add_subdirectory(test)
+add_subdirectory(third_party/gtest)
