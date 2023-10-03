@@ -42,8 +42,6 @@ private slots:
 
     void qtLabBtnClicked();
 
-    static void craneGPTBtnClicked();
-
 private:
     /* data */
     std::unique_ptr<Ui::Crane> ui;

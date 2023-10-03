@@ -69,22 +69,22 @@ void GeometryItem::initPathByPolygonWithHoles(const geometry::PolygonWithHoles& 
 /* region Rectangle */
 RectangleItem::RectangleItem(QGraphicsItem* parent) :
     GeometryItem(parent) {
-    geometry::Polygon outer_pts, inner_pts;
-    outer_pts.emplace_back(0, 100);
-    outer_pts.emplace_back(100, 100);
-    outer_pts.emplace_back(100, 0);
-    outer_pts.emplace_back(0, 0);
-    outer_pts.emplace_back(0, 100);
+    // geometry::Polygon outer_pts, inner_pts;
+    // outer_pts.emplace_back(0, 100);
+    // outer_pts.emplace_back(100, 100);
+    // outer_pts.emplace_back(100, 0);
+    // outer_pts.emplace_back(0, 0);
+    // outer_pts.emplace_back(0, 100);
 
-    inner_pts.emplace_back(20, 20);
-    inner_pts.emplace_back(80, 20);
-    inner_pts.emplace_back(80, 80);
-    inner_pts.emplace_back(20, 80);
-    inner_pts.emplace_back(20, 20);
+    // inner_pts.emplace_back(20, 20);
+    // inner_pts.emplace_back(80, 20);
+    // inner_pts.emplace_back(80, 80);
+    // inner_pts.emplace_back(20, 80);
+    // inner_pts.emplace_back(20, 20);
 
-    m_polygon_with_holes.setOuter(outer_pts);
-    m_polygon_with_holes.setInner({inner_pts});
-    initPathByPolygonWithHoles(m_polygon_with_holes);
+    // m_polygon_with_holes.setOuter(outer_pts);
+    // m_polygon_with_holes.setInner({inner_pts});
+    // initPathByPolygonWithHoles(m_polygon_with_holes);
 }
 
 RectangleItem::~RectangleItem() = default;
