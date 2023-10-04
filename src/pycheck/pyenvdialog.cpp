@@ -1,6 +1,6 @@
 #include "pyenvdialog.h"
 #include "ui_pyenvdialog.h"
-#include "utils/utils.hpp"
+#include "utils/cmd_utils.h"
 #ifdef _WIN32
     #include <windows.h>
 #endif

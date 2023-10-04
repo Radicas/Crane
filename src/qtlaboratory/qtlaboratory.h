@@ -32,71 +32,26 @@ class QtLaboratory : public QDialog {
 public:
     explicit QtLaboratory(QWidget* parent = nullptr);
 
+    QtLaboratory(const QtLaboratory& rhs) = delete;
+
     ~QtLaboratory() override;
 
 private slots:
-    /**
-     *
-     */
+
     void triangleBtnClicked();
 
-    /**
-     * @brief 矩形
-     */
     void rectBtnClicked();
 
-    /**
-     * @brief 圆角矩形
-     */
-    void roundRectBtnClicked();
-
-    /**
-     * @brief 圆形
-     */
-    void circleBtnClicked();
-
-    /**
-     * @brief 贝塞尔曲线封闭图形
-     */
-    void curvedPolyBtnClicked();
-
-    /**
-     * @brief 交集
-     */
-    void intersectBtnClicked();
-
-    /**
-     * @brief 补集
-     */
-    void unionBtnClicked();
-
-    /**
-     * @brief 差集
-     */
-    void subtractBtnClicked();
-
-    /**
-     * @brief 路径转多边形绘制
-     */
-    void pathToPolygonBtnClicked();
-
-    /**
-     * @brief 清空屏幕
-     */
-    void clearBtnClicked();
-
-    void expandBtnClicked();
+    void polygonBtnClicked();
 
 private:
     void initScene();
 
     void initConnects();
 
-    void addPolygon(const geometry::PolygonWithHoles& pwh);
-
 private:
-    std::unique_ptr<Ui::QtLabDlg> m_ui; ///< ui
-    std::unique_ptr<LabScene> m_scene;  ///< 场景
+    std::unique_ptr<Ui::QtLabDlg> _ui; ///< ui
+    std::unique_ptr<LabScene> _scene;  ///< 场景
 };
 
 #endif // REDEDA_QTLABORATORY_H

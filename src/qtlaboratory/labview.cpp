@@ -1,64 +1,141 @@
-//
-// Created by Radica on 2023/3/21.
-//
 #include "labview.h"
-#include <QDebug>
-#include <QScrollBar>
+
 #include <QWheelEvent>
+#include <QGraphicsSceneWheelEvent>
+#include <QGestureEvent>
+#include <QScrollBar>
+#include <QtMath>
 
-LabView::LabView(QGraphicsScene* scene, QWidget* parent) :
-    QGraphicsView(scene, parent) {
-    setViewportUpdateMode(QGraphicsView::ViewportUpdateMode::FullViewportUpdate);
+LabView::LabView(QWidget* parent) :
+    QGraphicsView(parent) {
+    setBackgroundBrush(Qt::black);
     setRenderHint(QPainter::Antialiasing, true);
+    setOptimizationFlag(QGraphicsView::DontSavePainterState, true);
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    setMouseTracking(true);
 }
-
-LabView::~LabView() = default;
 
 void LabView::wheelEvent(QWheelEvent* event) {
-    // 获取当前鼠标在视图中的位置
-    QPointF mousePos = mapToScene(event->position().toPoint());
-
-    // 计算缩放因子
-    double scaleFactor = 1.2;
-    if (event->angleDelta().y() < 0) {
-        scaleFactor = 1.0 / scaleFactor;
-    }
-
-    // 缩放视图
-    scale(scaleFactor, scaleFactor);
-
-    // 将鼠标位置重新聚焦到缩放后的位置
-    QPointF newMousePos = mapToScene(event->position().toPoint());
-    QPointF delta = newMousePos - mousePos;
-    horizontalScrollBar()->setValue((int)(horizontalScrollBar()->value() - delta.x()));
-    verticalScrollBar()->setValue((int)(verticalScrollBar()->value() - delta.y()));
-
-    event->accept();
-}
-void LabView::mousePressEvent(QMouseEvent* event) {
-    if (event->button() == Qt::MiddleButton) {
-        setCursor(Qt::ClosedHandCursor);       // 设置鼠标样式为关闭手指
-        lastMousePos = event->pos();           // 记录上一个鼠标位置
+    if (event->source() == Qt::MouseEventSynthesizedBySystem) {
+        QAbstractScrollArea::wheelEvent(event);
     } else {
-        QGraphicsView::mousePressEvent(event); // 调用父类函数处理事件
+        QGraphicsView::wheelEvent(event);
     }
 }
 
-void LabView::mouseMoveEvent(QMouseEvent* event) {
-    if (event->buttons() & Qt::MiddleButton) {
-        QPointF delta = mapToScene(event->pos()) - mapToScene(lastMousePos); // 计算移动距离
-        lastMousePos = event->pos();                                         // 更新上一个鼠标位置
-        horizontalScrollBar()->setValue((int)(horizontalScrollBar()->value() - delta.x())); // 水平方向滚动条移动
-        verticalScrollBar()->setValue((int)(verticalScrollBar()->value() - delta.y())); // 垂直方向滚动条移动
-    } else {
-        QGraphicsView::mouseMoveEvent(event); // 调用父类函数处理事件
+bool LabView::eventFilter(QObject* object, QEvent* event) {
+    switch (event->type()) {
+        case QEvent::Gesture: {
+            QGestureEvent* ge = dynamic_cast<QGestureEvent*>(event);
+            QPinchGesture* pinch_g = dynamic_cast<QPinchGesture*>(ge->gesture(Qt::PinchGesture));
+            if (pinch_g) {
+                scale(pinch_g->scaleFactor());
+                return true;
+            }
+            break;
+        }
+        case QEvent::GraphicsSceneMousePress: {
+            QGraphicsSceneMouseEvent* e = dynamic_cast<QGraphicsSceneMouseEvent*>(event);
+            Q_ASSERT(e);
+            if (e->button() == Qt::MiddleButton) {
+                mCursorBeforePanning = cursor();
+                setCursor(Qt::ClosedHandCursor);
+            }
+            if (mEventHandlerObject) {
+                mEventHandlerObject->graphicsViewEventHandler(event);
+            }
+            return true;
+        }
+        case QEvent::GraphicsSceneMouseRelease: {
+            QGraphicsSceneMouseEvent* e = dynamic_cast<QGraphicsSceneMouseEvent*>(event);
+            Q_ASSERT(e);
+            if (e->button() == Qt::MiddleButton) {
+                setCursor(mCursorBeforePanning);
+            }
+            if (mEventHandlerObject) {
+                mEventHandlerObject->graphicsViewEventHandler(event);
+            }
+            return true;
+        }
+        case QEvent::GraphicsSceneMouseMove: {
+            QGraphicsSceneMouseEvent* e = dynamic_cast<QGraphicsSceneMouseEvent*>(event);
+            Q_ASSERT(e);
+            if (e->buttons().testFlag(Qt::MiddleButton) && (!mPanningActive)) {
+                QPoint diff = mapFromScene(e->scenePos()) - mapFromScene(e->buttonDownScenePos(Qt::MiddleButton));
+                mPanningActive = true; // avoid recursive calls (=> stack overflow)
+                horizontalScrollBar()->setValue(horizontalScrollBar()->value() - diff.x());
+                verticalScrollBar()->setValue(verticalScrollBar()->value() - diff.y());
+                mPanningActive = false;
+            }
+            emit cursorScenePosChanged(e->scenePos());
+        }
+            // fall through
+        case QEvent::GraphicsSceneMouseDoubleClick:
+        case QEvent::GraphicsSceneContextMenu:
+        case QEvent::KeyRelease:
+        case QEvent::KeyPress: {
+            if (mEventHandlerObject && mEventHandlerObject->graphicsViewEventHandler(event)) {
+                return true;
+            }
+            break;
+        }
+        case QEvent::GraphicsSceneWheel: {
+            if (!underMouse())
+                break;
+            if (mEventHandlerObject) {
+                if (!mEventHandlerObject->graphicsViewEventHandler(event)) {
+                    handleMouseWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(event));
+                }
+            } else {
+                handleMouseWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(event));
+            }
+            return true;
+        }
+        default:
+            break;
     }
+    return QWidget::eventFilter(object, event);
 }
 
-void LabView::mouseReleaseEvent(QMouseEvent* event) {
-    if (event->button() == Qt::MiddleButton) {
-        setCursor(Qt::ArrowCursor);              // 设置鼠标样式为箭头
+void LabView::drawBackground(QPainter* painter, const QRectF& rect) {
+    QGraphicsView::drawBackground(painter, rect);
+    QPen oldPen = painter->pen();
+    QPen pen;
+    pen.setWidth(0);
+    pen.setColor(Qt::white);
+    painter->setPen(pen);
+    painter->drawLine(-10, 0, 10, 0);
+    painter->drawLine(0, -10, 0, 10);
+    painter->setPen(oldPen);
+}
+
+void LabView::drawForeground(QPainter* painter, const QRectF& rect) {
+    QGraphicsView::drawForeground(painter, rect);
+}
+
+void LabView::handleMouseWheelEvent(QGraphicsSceneWheelEvent* event) noexcept {
+    if (event->modifiers().testFlag(Qt::ShiftModifier)) {
+        // horizontal scrolling
+        horizontalScrollBar()->setValue(horizontalScrollBar()->value() - event->delta());
+    } else if (event->modifiers().testFlag(Qt::ControlModifier)) {
+        if (event->orientation() == Qt::Horizontal) {
+            // horizontal scrolling
+            horizontalScrollBar()->setValue(horizontalScrollBar()->value() - event->delta());
+        } else {
+            // vertical scrolling
+            verticalScrollBar()->setValue(verticalScrollBar()->value() - event->delta());
+        }
     } else {
-        QGraphicsView::mouseReleaseEvent(event); // 调用父类函数处理事件
+        // Zoom to mouse
+        qreal scaleFactor = qPow(sZoomStepFactor, event->delta() / qreal(120));
+        scale(scaleFactor);
     }
+    event->setAccepted(true);
+}
+
+void LabView::scale(qreal factor) noexcept {
+    QGraphicsView::scale(factor, factor);
 }

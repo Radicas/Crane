@@ -43,7 +43,9 @@ private slots:
     void qtLabBtnClicked();
 
 private:
+    /* methods */
+    void setUpDialog();
     /* data */
-    std::unique_ptr<Ui::Crane> ui;
+    std::unique_ptr<Ui::Crane> _ui;
 };
 #endif // MAINWINDOW_H

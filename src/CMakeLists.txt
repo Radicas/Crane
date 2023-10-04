@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # 添加子路径
-add_subdirectory(algorithm)
+# add_subdirectory(algorithm)
 
 # 自动添加源文件搜索
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -70,7 +70,7 @@ endif ()
 target_link_libraries(${PROJECT_NAME} PRIVATE
 		Qt${QT_VERSION_MAJOR}::Widgets # Qt库
 		${Boost_LIBRARIES}             # Boost库
-		geometry                       # 几何库
+		# geometry                       # 几何库
 		)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

@@ -34,80 +34,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="roundRectBtn">
+      <widget class="QPushButton" name="polygonBtn">
        <property name="text">
-        <string>Round RectangleItem</string>
+        <string>PolygonItem</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="circleBtn">
-       <property name="text">
-        <string>CircleItem</string>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="curvedPolygonBtn">
-       <property name="text">
-        <string>Curved PolygonItem</string>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="simplePolygonBtn">
-       <property name="text">
-        <string>Simple PolygonItem</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="intersectBtn">
-       <property name="text">
-        <string>Intersection</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="unionBtn">
-       <property name="text">
-        <string>Union</string>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="subtractBtn">
-       <property name="text">
-        <string>Subtraction</string>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pathToPolygonBtn">
-       <property name="text">
-        <string>Path to PolygonItem</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="expandBtn">
-       <property name="text">
-        <string>Expand</string>
        </property>
       </widget>
      </item>
