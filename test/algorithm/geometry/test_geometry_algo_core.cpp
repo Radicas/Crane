@@ -1,43 +1,78 @@
-#ifndef TEST_GEOMETRY_ALGO_CORE_H
-#define TEST_GEOMETRY_ALGO_CORE_H
-
 #include <gtest/gtest.h>
 
 #include "algorithm/geometry/geometry_algo_core.h"
 
-// 定义一个测试套件(Test Suite)，用于测试点(Point)类的功能
-class PointTest : public ::testing::Test {
-protected:
-    // 在每个测试用例之前执行的操作
-    void SetUp() override {
-        // 可以在这里进行一些初始化操作
-    }
+// 数据源
+geometry::POINT p1;
+geometry::POINT p2(1, 2);
+geometry::POINT p3(p2);
 
-    // 在每个测试用例之后执行的操作
-    void TearDown() override {
-        // 可以在这里进行一些清理操作
-    }
+geometry::VECTOR2D v1(5, 5);
+geometry::VECTOR2D v2(-5, -5);
 
-    // 可以在这里定义一些辅助函数，供测试用例使用
-};
+// 构造函数
+TEST(POINT, construction) {
+    // defualt construction
+    geometry::POINT test_p1;
+    ASSERT_EQ(test_p1.x, 0);
+    ASSERT_EQ(test_p1.y, 0);
 
-// 定义一个测试用例(Test Case)，测试点(Point)类的构造函数和成员函数
-TEST_F(PointTest, TestConstructorAndMembers) {
-    // 创建一个点对象
-    geometry::POINT p(3.0, 4.0);
+    // user defined construction
+    geometry::POINT test_p2(1, 2);
+    ASSERT_EQ(test_p2.x, 1);
+    ASSERT_EQ(test_p2.y, 2);
 
-    // 使用断言检查点的坐标是否正确
-    ASSERT_EQ(p.getX(), 3.0);
-    ASSERT_EQ(p.getY(), 4.0);
-
-    // 使用点对象的成员函数进行一些操作，并使用断言检查结果
-    p.setX(5.0);
-    p.setY(6.0);
-    ASSERT_EQ(p.getX(), 5.0);
-    ASSERT_EQ(p.getY(), 6.0);
-
-    double distance = p.distanceToOrigin();
-    ASSERT_DOUBLE_EQ(distance, 7.810249675906654);
+    // copy construction
+    geometry::POINT test_p3(p2);
+    ASSERT_EQ(test_p3.x, 1);
+    ASSERT_EQ(test_p3.y, 2);
 }
 
-#endif // TEST_GEOMETRY_ALGO_CORE_H
+//  操作符重载
+TEST(POINT, operators) {
+    // +=
+    p3 += p2;
+    ASSERT_EQ(p3.x, 2);
+    ASSERT_EQ(p3.y, 4);
+
+    // -=
+    p3 -= p2;
+    ASSERT_EQ(p3.x, 1);
+    ASSERT_EQ(p3.y, 2);
+
+    // 取反
+    p3 = -p3;
+    ASSERT_EQ(p3.x, -1);
+    ASSERT_EQ(p3.y, -2);
+
+    // +
+    auto p4 = p1 + p3;
+    ASSERT_EQ(p4.x, -1);
+    ASSERT_EQ(p4.y, -2);
+
+    // -
+    auto p5 = p1 - p3;
+    ASSERT_EQ(p5.x, 1);
+    ASSERT_EQ(p5.y, 2);
+
+    // *
+    auto p6 = p5 * 3;
+    ASSERT_EQ(p6.x, 3);
+    ASSERT_EQ(p6.y, 6);
+
+    // /
+    auto p7 = p6 / 3;
+    ASSERT_EQ(p7.x, 1);
+    ASSERT_EQ(p7.y, 2);
+}
+
+TEST(VECTOR2D, multiply) {
+    double res = geometry::multiply(v1, v2);
+    ASSERT_EQ(res, 0);
+}
+
+TEST(VECTOR2D, normalize) {
+    auto res = geometry::normalize(v1);
+    ASSERT_EQ(res.x, 5 / std::sqrt(50));
+    ASSERT_EQ(res.y, 5 / std::sqrt(50));
+}

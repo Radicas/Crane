@@ -8,7 +8,9 @@ find_package(GTest REQUIRED)
 # 递归查找并包含src文件夹及其子文件夹中的所有.cpp和.h文件
 file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/src/algorithm/*.h")
 file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/algorithm/*.cpp")
-file(GLOB_RECURSE TEST_SOURCES "${CMAKE_CURRENT_DIR}/src/*.cpp")
+file(GLOB_RECURSE TEST_SOURCES "${CMAKE_SOURCE_DIR}/test/*.cpp")
+
+include_directories("${CMAKE_SOURCE_DIR}/src")
 
 # 添加测试可执行文件
 add_executable(CraneTest

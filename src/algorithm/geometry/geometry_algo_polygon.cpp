@@ -3,6 +3,7 @@
 namespace geometry {
 
 bool polygonOffset(geometry::POLYGON& polygon, double gap, bool expand) {
+    return false;
     // // 多边形顶点数量
     // int vertexCnt = polygon.size();
     // // 拷贝一份
