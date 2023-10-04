@@ -6,13 +6,15 @@ project(CraneTest)
 find_package(GTest REQUIRED)
 
 # 递归查找并包含src文件夹及其子文件夹中的所有.cpp和.h文件
-file(GLOB_RECURSE SRC_FILES "${CMAKE_SOURCE_DIR}/src/algorithm/geometry/*.cpp" "${CMAKE_SOURCE_DIR}/algorithm/geometry/*.h")
-file(GLOB_RECURSE SRC_TEST "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/src/algorithm/*.h")
+file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/algorithm/*.cpp")
+file(GLOB_RECURSE TEST_SOURCES "${CMAKE_CURRENT_DIR}/src/*.cpp")
 
 # 添加测试可执行文件
 add_executable(CraneTest
-    ${SRC_TEST} # 添加你的测试文件
-    ${SRC_FILES} # 包含src文件夹及其子文件夹中的所有文件
+    ${HEADERS}
+    ${SOURCES}
+    ${TEST_SOURCES}
 )
 
 # 链接Google Test库和其他依赖项

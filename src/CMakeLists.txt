@@ -34,10 +34,14 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Boost REQUIRED COMPONENTS system)
 
 # 寻找所有目标目录下的源文件，包括.h .cpp .ui等等
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} PROJECT_SOURCES)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/pycheck PROJECT_SOURCES)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/qtlaboratory PROJECT_SOURCES)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/algorithm/geometry PROJECT_SOURCES)
+# aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} PROJECT_SOURCES)
+# aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/pycheck PROJECT_SOURCES)
+# aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/qtlaboratory PROJECT_SOURCES)
+# aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/algorithm/geometry PROJECT_SOURCES)
+
+file(GLOB_RECURSE PROJECT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB_RECURSE PROJECT_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+
 
 # 将头文件路径和链接库路径添加到编译选项中
 include_directories(${Boost_INCLUDE_DIRS})
