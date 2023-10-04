@@ -49,6 +49,7 @@ private:
 
     void initConnects();
 
+    void offsetItem(const QPolygonF& polygon);
 private:
     std::unique_ptr<Ui::QtLabDlg> _ui; ///< ui
     std::unique_ptr<LabScene> _scene;  ///< 场景

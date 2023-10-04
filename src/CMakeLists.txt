@@ -37,7 +37,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} PROJECT_SOURCES)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/pycheck PROJECT_SOURCES)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/qtlaboratory PROJECT_SOURCES)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/cranegpt PROJECT_SOURCES)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/algorithm/geometry PROJECT_SOURCES)
 
 # 将头文件路径和链接库路径添加到编译选项中
 include_directories(${Boost_INCLUDE_DIRS})
@@ -47,47 +47,48 @@ link_directories(${Boost_LIBRARY_DIRS})
 set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/res/ui")
 
 # 添加可执行文件
-if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 	qt_add_executable(${PROJECT_NAME}
-			MANUAL_FINALIZATION
-			${PROJECT_SOURCES}
-			)
+		MANUAL_FINALIZATION
+		${PROJECT_SOURCES}
+	)
 	qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-else ()
-	if (ANDROID)
+else()
+	if(ANDROID)
 		add_library(${PROJECT_NAME} SHARED
-				${PROJECT_SOURCES}
-				)
-	else ()
+			${PROJECT_SOURCES}
+		)
+	else()
 		add_executable(${PROJECT_NAME}
-				${PROJECT_SOURCES}
-				)
-	endif ()
+			${PROJECT_SOURCES}
+		)
+	endif()
+
 	qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-endif ()
+endif()
 
 # 链接库
 target_link_libraries(${PROJECT_NAME} PRIVATE
-		Qt${QT_VERSION_MAJOR}::Widgets # Qt库
-		${Boost_LIBRARIES}             # Boost库
-		# geometry                       # 几何库
-		)
+	Qt${QT_VERSION_MAJOR}::Widgets # Qt库
+	${Boost_LIBRARIES} # Boost库
+
+	# geometry                       # 几何库
+)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-		MACOSX_BUNDLE_GUI_IDENTIFIER radica.Crane.com
-		MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-		MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-		MACOSX_BUNDLE TRUE
-		WIN32_EXECUTABLE TRUE
-		)
+	MACOSX_BUNDLE_GUI_IDENTIFIER radica.Crane.com
+	MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+	MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+	MACOSX_BUNDLE TRUE
+	WIN32_EXECUTABLE TRUE
+)
 
 # 不指定安装路径这里会安装到C盘
 install(TARGETS ${PROJECT_NAME}
-		BUNDLE DESTINATION .
-		LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+	BUNDLE DESTINATION .
+	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 # QT6的特殊处理
-if (QT_VERSION_MAJOR EQUAL 6)
+if(QT_VERSION_MAJOR EQUAL 6)
 	qt_finalize_executable(${PROJECT_NAME})
-endif ()
-
+endif()

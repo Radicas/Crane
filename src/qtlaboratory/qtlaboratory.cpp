@@ -1,7 +1,8 @@
 #include "qtlaboratory.h"
+#include "ui_qtlaboratory.h"
 #include "labscene.h"
 #include "labview.h"
-#include "ui_qtlaboratory.h"
+#include "algorithm/geometry/geometry_algo_convertor.h"
 
 #include <QGraphicsRectItem>
 #include <vector>
@@ -49,17 +50,21 @@ void QtLaboratory::triangleBtnClicked() {
 }
 
 void QtLaboratory::rectBtnClicked() {
-    QPen pen(Qt::cyan, 0);
+    QPen pen(Qt::red, 0);
     QBrush brush(Qt::NoBrush);
-    auto* item = new QGraphicsRectItem();
+    auto* item = new QGraphicsPolygonItem();
     item->setPen(pen);
     item->setBrush(brush);
-    item->setRect(QRectF(-100, -100, 200, 200));
+    QPolygonF polygon;
+    polygon << QPointF(-100, -100) << QPointF(-100, 100) << QPointF(100, 100) << QPointF(100, -100);
+    item->setPolygon(QRectF(-100, -100, 200, 200));
     _scene->addItem(item);
+
+    offsetItem(polygon);
 }
 
 void QtLaboratory::polygonBtnClicked() {
-    QPen pen(Qt::cyan, 0);
+    QPen pen(Qt::red, 0);
     QBrush brush(Qt::NoBrush);
     auto* item = new QGraphicsPolygonItem();
     item->setPen(pen);
@@ -71,6 +76,25 @@ void QtLaboratory::polygonBtnClicked() {
             << QPointF(-140, -40) << QPointF(-180, 0);
     item->setPolygon(polygon);
     _scene->addItem(item);
+
+    offsetItem(polygon);
+}
+
+void QtLaboratory::offsetItem(const QPolygonF& polygon) {
+    QPen pen(Qt::cyan, 0);
+    QBrush brush(Qt::NoBrush);
+    for (int i = 1; i <= 10; ++i) {
+        auto* item = new QGraphicsPolygonItem();
+        auto new_polygon = geometry::polygonF2POLYGON(polygon);
+        geometry::polygonOffset(new_polygon, 5, true);
+        auto result_polygon = geometry::POLYGON2polygonF(new_polygon);
+        item->setPolygon(result_polygon);
+
+        item->setPen(pen);
+        item->setBrush(brush);
+        item->setPolygon(polygon);
+        _scene->addItem(item);
+    }
 }
 
 /* endregion */

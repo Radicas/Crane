@@ -10,9 +10,9 @@ set(PROJECT_NAME Crane)
 project(${PROJECT_NAME} VERSION 0.1 LANGUAGES CXX)
 
 # 苹果系统需要手动指定qt路径
-#if(MACOS)
+# if(MACOS)
 # set(CMAKE_PREFIX_PATH "/usr/local/Cellar/qt@5/5.15.8_2")
-#endif()
+# endif()
 
 # 设置Boost库路径
 set(BOOST_ROOT "/path/to/boost")
@@ -24,4 +24,4 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
 add_subdirectory(src)
 
 # 测试代码
-# add_subdirectory(test)
+add_subdirectory(test)
