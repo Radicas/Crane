@@ -1,26 +1,22 @@
-#ifndef REDEDA_LABSCENE_H
-#define REDEDA_LABSCENE_H
+#ifndef LABSCENE_H
+#define LABSCENE_H
 
 #include <QGraphicsScene>
-#include <vector>
-class GeometryItem;
+
 class LabScene : public QGraphicsScene {
+    Q_OBJECT
+
 public:
-    explicit LabScene(QObject* parent = nullptr);
-
-    ~LabScene() override;
-
-    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
-
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
-
-    void updateItem(QGraphicsItem* item);
+    /* region Constructors / Destructor */
+    LabScene(QObject* parent = nullptr);
+    /* endregion */
 
 private:
-    /* data */
-    QGraphicsItem* _selected_item;
+    /* region Private Methods */
+    void initScene();
+
+    void createGrid(int numRows, int numCols, int gridSpacing);
+    /* endregion */
 };
 
-#endif // REDEDA_LABSCENE_H
+#endif // LABSCENE_H

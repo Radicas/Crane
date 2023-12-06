@@ -34,10 +34,22 @@ public:
 
 private:
     /* region Private Methods */
+    /**
+     * @brief 
+     * 
+     */
     void initObjects();
 
+    /**
+     * @brief 
+     * 
+     */
     void initScene();
 
+    /**
+     * @brief 
+     * 
+     */
     void initConnections();
     /* endregion */
 

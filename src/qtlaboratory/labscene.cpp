@@ -1,31 +1,43 @@
 #include "labscene.h"
 
-#include <QDebug>
-#include <QGraphicsSceneMouseEvent>
-#include <QPainterPath>
-#include <QRectF>
-#include <QGraphicsItem>
-
+#include <QGraphicsLineItem>
+#include <QGraphicsSceneWheelEvent>
+/* region Constructors / Destructor */
 LabScene::LabScene(QObject* parent) :
-    QGraphicsScene(parent),
-    _selected_item(nullptr) {
-    setSceneRect(-5000, -5000, 10000, 10000);
-    setSelectionArea(QPainterPath(), Qt::IntersectsItemShape);
+    QGraphicsScene(parent) {
+    initScene();
+}
+/* endregion */
+
+/* region Private Methods */
+void LabScene::initScene() {
+    // setSceneRect(0, 0, 800, 600);
+    setBackgroundBrush(Qt::black); // 设置背景颜色为浅灰色
+    createGrid(1000, 1000, 50);
 }
 
-LabScene::~LabScene() {
-}
+void LabScene::createGrid(int numRows, int numCols, int gridSpacing) {
+    // 计算实际的网格尺寸
+    int gridWidth = numCols * gridSpacing;
+    int gridHeight = numRows * gridSpacing;
 
-void LabScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-    _selected_item = itemAt(event->scenePos(), QTransform());
-}
+    QPen pen(Qt::white, 0);
 
-void LabScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
-    if (_selected_item) {
-        _selected_item->setPos(event->scenePos());
+    // 绘制垂直网格线
+    for (int i = 0; i <= numCols; i++) {
+        int x = i * gridSpacing;
+        QGraphicsLineItem* line = new QGraphicsLineItem(x, 0, x, gridHeight);
+        line->setPen(pen);
+        addItem(line);
+    }
+
+    // 绘制水平网格线
+    for (int i = 0; i <= numRows; i++) {
+        int y = i * gridSpacing;
+        QGraphicsLineItem* line = new QGraphicsLineItem(0, y, gridWidth, y);
+        line->setPen(pen);
+        addItem(line);
     }
 }
 
-void LabScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
-    _selected_item = nullptr;
-}
+/* endregion */

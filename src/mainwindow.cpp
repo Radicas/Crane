@@ -54,8 +54,6 @@ void MainWindow::exitTriggered() {
 
 void MainWindow::qtLabBtnClicked() {
     std::unique_ptr<LaboratoryDialog> ql_dlg(new LaboratoryDialog(this));
-    ql_dlg->setBaseSize(1600, 900);
-    Utils::showCenteredWindow(this);
     ql_dlg->exec();
 }
 /* endregion */

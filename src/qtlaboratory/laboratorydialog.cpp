@@ -25,11 +25,14 @@ void LaboratoryDialog::initObjects() {
 
 void LaboratoryDialog::initScene() {
     _ui->setupUi(this);
-    auto layout = new QVBoxLayout();
-    auto view = new LabView(this);
+    auto* layout = new QVBoxLayout();
+    auto* view = new LabView(this);
     view->setScene(_scene.get());
     layout->addWidget(view);
     _ui->mainWgt->setLayout(layout);
+    setModal(true);
+    setWindowTitle(tr("Laboratory"));
+    showMaximized(); // 最大化(区别于全屏)
 }
 
 void LaboratoryDialog::initConnections() {
