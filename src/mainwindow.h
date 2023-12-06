@@ -32,6 +32,7 @@ public:
 
 private slots:
 
+    /* region Slots Methods */
     void initComponents();
 
     static void pyEnvBtnClicked();
@@ -41,10 +42,13 @@ private slots:
     void exitTriggered();
 
     void qtLabBtnClicked();
+    /* endregion */
 
 private:
-    /* methods */
+    /* region Private Methods */
     void setUpDialog();
+    /* endregion */
+
     /* data */
     std::unique_ptr<Ui::Crane> _ui;
 };

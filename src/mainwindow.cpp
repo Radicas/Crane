@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 
 #include "pycheck/pyenvdialog.h"
-#include "qtlaboratory/qtlaboratory.h"
 #include "ui_mainwindow.h"
 #include "utils/visual_utils.h"
+#include "qtlaboratory/laboratorydialog.h"
 
 #include <iostream>
 #include <QApplication>
@@ -44,14 +44,16 @@ void MainWindow::pyEnvBtnClicked() {
     std::unique_ptr<PyEnvDialog> pyenv_dlg(new PyEnvDialog());
     pyenv_dlg->exec();
 }
+
 void MainWindow::aboutTriggered() {
 }
+
 void MainWindow::exitTriggered() {
     this->close();
 }
 
 void MainWindow::qtLabBtnClicked() {
-    std::unique_ptr<QtLaboratory> ql_dlg(new QtLaboratory(this));
+    std::unique_ptr<LaboratoryDialog> ql_dlg(new LaboratoryDialog(this));
     ql_dlg->setBaseSize(1600, 900);
     Utils::showCenteredWindow(this);
     ql_dlg->exec();
