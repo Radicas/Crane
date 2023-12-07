@@ -24,7 +24,7 @@ void LabScene::createGrid(int numRows, int numCols, int gridSpacing) {
     QPen pen(Qt::white, 0);
 
     // 绘制垂直网格线
-    for (int i = 0; i <= numCols; i++) {
+    for (int i = 0; i < numCols; i++) {
         int x = i * gridSpacing;
         QGraphicsLineItem* line = new QGraphicsLineItem(x, 0, x, gridHeight);
         line->setPen(pen);
@@ -32,7 +32,7 @@ void LabScene::createGrid(int numRows, int numCols, int gridSpacing) {
     }
 
     // 绘制水平网格线
-    for (int i = 0; i <= numRows; i++) {
+    for (int i = 0; i < numRows; i++) {
         int y = i * gridSpacing;
         QGraphicsLineItem* line = new QGraphicsLineItem(0, y, gridWidth, y);
         line->setPen(pen);

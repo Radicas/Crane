@@ -4,6 +4,7 @@
 #include "labscene.h"
 #include "labview.h"
 
+#include <QGraphicsPathItem>
 #include <memory>
 /* region Constructors / Destructor */
 LaboratoryDialog::LaboratoryDialog(QWidget* parent) :
@@ -36,5 +37,21 @@ void LaboratoryDialog::initScene() {
 }
 
 void LaboratoryDialog::initConnections() {
+    auto* item = new QGraphicsPathItem();
+    QPainterPath path;
+    path.moveTo(QPointF(0, 0));
+    path.lineTo(QPointF(100, 0));
+    path.lineTo(QPointF(100, 100));
+    path.lineTo(QPointF(200, 0));
+    path.lineTo(QPointF(200, 200));
+    path.lineTo(QPointF(300, 0));
+    path.lineTo(QPointF(300, 300));
+    path.closeSubpath();
+    QPen pen(Qt::red, 0);
+    QBrush brush(Qt::blue);
+    item->setPen(pen);
+    item->setBrush(brush);
+    item->setPath(path);
+    _scene->addItem(item);
 }
 /* endregion */
